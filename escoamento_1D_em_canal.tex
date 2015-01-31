@@ -1,0 +1,418 @@
+\documentclass[a4paper,portuguese,10pt]{article}
+
+\usepackage{setspace}
+\usepackage[hang,footnotesize]{caption}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+%\usepackage{hyperref}
+\usepackage[colorlinks=true]{hyperref}
+\hypersetup{
+  linkcolor=black,
+  citecolor=blue,
+}
+%\usepackage{setspace}
+%\usepackage{abntcite}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{nonfloat}
+\usepackage{semtrans}
+\usepackage[margin=2cm]{geometry}
+\usepackage[portuguese]{babel}
+\usepackage[fixlanguage]{babelbib}
+\selectbiblanguage{portuguese}
+\usepackage[svgnames]{xcolor} % Specify colors by their 'svgnames'; list of all colors available: http://www.latextemplates.com/svgnames-colors
+\usepackage{titlesec}
+\usepackage[numbers]{natbib}
+\usepackage{nomencl}
+\usepackage{ifthen}
+\usepackage{multicol} % use of multiple columns
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usetikzlibrary{shapes,shadows,arrows}
+%\usepackage{draftwatermark}
+%\SetWatermarkText{ANNEX 2}
+%\SetWatermarkScale{3}
+%\SetWatermarkColor[rgb]{red!60}
+\columnsep=8mm
+%\columnseprule=1pt
+
+\newcommand{\p}{\parallel}
+\newcommand{\m}{\mid}
+\newcommand{\del}{\bigtriangleup}
+\newcommand{\lb}{\linebreak}
+\newcommand{\nl}{\newline}
+%\renewcommand{\div}{{\,\rm div}\,}
+\renewcommand{\div}{{\,\nabla\cdot}\,}
+%\newcommand{\grad}{\,\rm {grad}\,}
+\newcommand{\grad}{\,\rm \nabla\,}
+\renewcommand{\D}{\partial}
+\newcommand{\RR}{\mathbb{R}}
+\renewcommand{\vec}{\mathbf}
+\newcommand{\esp}{\text{\hspace{2mm}}}
+\newcommand{\dgs}{\textordmasculine}
+\renewcommand{\max}{\operatorname{max}}
+\newcommand{\Ra}{\operatorname{Ra}}
+\renewcommand{\Re}{\operatorname{Re}}
+\newcommand{\Gr}{\operatorname{Gr}}
+\newcommand{\St}{\operatorname{St}}
+\renewcommand{\Pr}{\operatorname{Pr}}
+\newcommand{\CFL}{\operatorname{CFL}}
+
+%\setlength{\hoffset}{-1cm}
+%\setlength{\textwidth}{17cm}
+%\setlength{\parskip}{1cm plus4mm minus3mm}
+\setlength{\parskip}{2mm}
+\setlength{\parindent}{0mm} % Default is 15pt.
+\titleformat*{\section}{\normalsize\bfseries}
+\titleformat*{\subsection}{\normalsize\bfseries}
+\titleformat*{\subsubsection}{\normalsize}
+
+\renewcommand{\refname}{\normalsize{References}}
+\renewcommand{\nomname}{List of Symbols}
+
+\renewcommand{\nomgroup}[1]{%
+\ifthenelse{\equal{#1}{R}}{\item[\textbf{Roman letters}]}{%
+\ifthenelse{\equal{#1}{G}}{\item[Greek letters]}{}}}
+
+\pagestyle{fancy}
+\lhead{}
+\rhead{\small{ESCOAMENTO EM CANAL - Modelos 1D}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\thispagestyle{empty}
+
+\begin{minipage}{0.5\linewidth}
+\large\textbf{CURSO DE ESCOAMENTOS\\MULTIFÁSICOS}
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+\flushright
+\includegraphics[height=18mm]{../../../imagens/logouerj.jpg}
+\hspace{.5cm}
+\includegraphics[height=16mm]{../../../imagens/logo_ppg-em.jpg}
+\end{minipage}
+
+\hrulefill
+
+%\begin{minipage}[b]{0.5\linewidth}
+\Large \color{NavyBlue} \textbf{ESCOAMENTO EM CANAL - Modelos 1D}\\
+\color{Black}\\ % Title
+%\vspace{-.5cm}
+\normalsize \texttt{Preparado por: Leon Lima}\\%[0.5cm] % Author(s)
+\normalsize \texttt{\today}
+%\end{minipage}
+
+%\begin{minipage}[b]{0.5\linewidth}
+%\flushright
+%\includegraphics[height=2cm]{../../imagens/logoeletronuclear.jpg}
+%\hspace{.5cm}
+%\includegraphics[height=2cm]{../../imagens/logouerj.jpg}\\
+%\end{minipage}
+
+\hrulefill
+\begin{center}
+\begin{minipage}{0.8\linewidth}
+\footnotesize{\textbf{Resumo.} Este texto apresenta os pontos principais da modelagem matemática de escoamento incompressível, desenvolvido, em regimes laminar e turbulento, permanente e transiente, em canal aberto. Conceitos básicos de turbulência são sucintamente apresentados. Além disso, uma discretização em diferenças finitas centradas é apresenta para os perfis laminar e turbulento.}
+\end{minipage}
+\end{center}
+
+%\begin{multicols}{2}
+{\footnotesize\tableofcontents}
+\hrulefill\\
+\onehalfspacing
+\vspace{10mm}
+
+\section{PERFIL LAMINAR}
+
+\subsection{Regime laminar permanente}
+
+Considere as componentes $x$ e $y$ das equações de Navier Stokes para escoamento incompressível (com viscosidade constante\footnote{Para um escoamento isotérmico, a hipótese de viscosidade constante é muito realista, uma vez que, embora ela dependa também da pressão do fluido (além da temperatura), as variações com a pressão são extremamente baixas.} e sem termo das forças de corpo):
+
+\begin{subequations}
+  \begin{eqnarray}
+    \frac{\D u}{\D t}+u\frac{\D u}{\D x}+v\frac{\D u}{\D y}&=&-\frac{1}{\rho}\frac{\D p}{\D x}+\nu\left(\frac{\D^2u}{\D x^2}+\frac{\D^2u}{\D y^2}\right)\\
+    \frac{\D v}{\D t}+u\frac{\D v}{\D x}+v\frac{\D v}{\D y}&=&-\frac{1}{\rho}\frac{\D p}{\D y}+\nu\left(\frac{\D^2v}{\D x^2}+\frac{\D^2v}{\D y^2}\right)
+  \end{eqnarray}
+\end{subequations}
+
+\begin{equation}
+  \frac{\D u}{\D x} + \frac{\D v}{\D y} = 0
+\end{equation}
+
+Para o regime permanente do escoamento, $\frac{\D u}{\D t}=\frac{\D v}{\D t}=0$.
+
+Suponha também que o escoamento seja desenvolvido, isto é,
+
+\begin{equation}
+  \frac{\D u}{\D x} = 0
+\end{equation}
+o que implica em
+
+\begin{equation}
+  \frac{\D v}{\D y} = 0
+\end{equation}
+
+Esse resultado significa que $v = \text{constante}$ ao longo de qualquer seção do canal. Mais do que isso: por causa das condições de contorno de não deslizamento, $v = 0$, em todo o domínio do escoamento.
+
+Temos portanto
+
+\begin{subequations}
+  \begin{eqnarray}
+    -\frac{1}{\rho}\frac{\D p}{\D x}+\nu\frac{\D^2u}{\D y^2}&=&0\\
+    -\frac{1}{\rho}\frac{\D p}{\D y}&=&0
+  \end{eqnarray}
+  \label{eq:sistema_laminar}
+\end{subequations}
+
+A condição de que a derivada parcial da pressão em relação a $y$ seja nula significa que $p = p(x)$, ou seja, o campo de pressão não depende da coordenada $y$. Este resultado significa que o escoamento incompressível, desenvolvido e estacionário em um canal cujos fluxos na direção $z$ são irrelevantes é modelado por
+
+\begin{equation}
+  \frac{\D p}{\D x}=\mu\frac{\D^2u}{\D y^2}
+  \label{eq:perfil_laminar_edp}
+\end{equation}
+Uma vez que a pressão depende apenas de $x$ e a velocidade $u$ depende apenas de $y$, podemos concluir que a pressão depende linearmente de $x$, de maneira que $\D p/\D x$ é constante. Dado um gradiente de pressão, a equação \ref{eq:perfil_laminar_edp} se torna uma EDO homogênea de segunda ordem, cuja solução é o perfil laminar do escoamento com as características citadas, expresso por
+
+\begin{equation}
+  u(y) = \frac{1}{2\mu}\frac{\D p}{\D x}y^2+C_1y+C_2
+\end{equation}
+com
+
+\begin{subequations}
+  \begin{eqnarray}
+    C_1 &=& \frac{u(L)-u(0)}{L}-\frac{1}{2\mu}\frac{\D p}{\D x}L\\
+    C_2 &=& u(0)
+  \end{eqnarray}
+\end{subequations}
+onde $L$ é a largura do canal. Se $u(0)=u(L)=0$, obtemos
+
+\begin{equation}
+  u(y) = \frac{1}{2\mu}\frac{\D p}{\D x}\left(y^2-Ly\right)
+  \label{eq:perfil_laminar}
+\end{equation}
+
+Considere que $u(y=L/2)=U$. Para o perfil dado pela equação \ref{eq:perfil_laminar}, temos portanto que
+
+\begin{equation}
+  U = \frac{1}{2\mu}\frac{\D p}{\D x}\left(-\frac{L^2}{4}\right)
+\end{equation}
+o que resulta em
+
+\begin{equation}
+  \frac{\D p}{\D x}=-8\frac{\mu U}{L^2}
+\end{equation}
+
+Definindo $\Re=UL\rho/\mu$, obtemos
+
+\begin{equation}
+  \frac{\D p}{\D x}=-8\frac{\mu^2\Re}{\rho L^3}
+  \label{eq:gradp}
+\end{equation}
+
+\subsection{Regime laminar transiente}
+
+O regime transiente do mesmo escoamento pode ser representado por
+
+\begin{equation}
+    \frac{\D u}{\D t}=-\frac{1}{\rho}\frac{\D p}{\D x}+\nu\frac{\D^2u}{\D y^2}
+    \label{eq:perfil_laminar_transiente}
+\end{equation}
+
+Note que agora a equação depende da densidade $\rho$ do fluido. De fato, para o regime transiente, a variação do perfil de velocidade com o tempo deve ser influenciada pela inércia do fluido, convergindo, no entanto, para um valor comum para qualquer valor de $\rho$. Note ainda que a pressão agora é também função do tempo, isto é, $p = p(x,t)$ e seu gradiente não pode mais ser calculado pela expressão \ref{eq:gradp}.
+
+\subsubsection{Discretização}
+
+Para cada nó $i$ da malha, para passo de tempo $\Delta T$ e distância entre nós uniforme igual a $\Delta y$, a discretização da equação \ref{eq:perfil_laminar_transiente} em diferenças finitas centradas é expressa por
+
+\begin{eqnarray}
+  \frac{u_i^{n+1}-u_i^n}{\Delta t} = -\frac{1}{\rho}\frac{\D p}{\D x} &+& \alpha\frac{\nu_{i+1/2}(u_{i+1}^{n+1}-u_{i}^{n+1})-\nu_{i-1/2}(u_{i}^{n+1}-u_{i-1}^{n+1})}{\Delta y^2}+\nonumber\\ &+& (1-\alpha)\frac{\nu_{i+1/2}(u_{i+1}^n-u_{i}^n)-\nu_{i-1/2}(u_{i}^n-u_{i-1}^n)}{\Delta y^2}
+  \label{eq:perfil_laminar_discr}
+\end{eqnarray}
+com $0\leq\alpha\leq 1$, e com $\nu_{i+1/2} = (\nu_{i}+\nu_{i+1})/2$ e $\nu_{i-1/2} = (\nu_{i-1}+\nu_{i})/2$.
+
+\section{PERFIL TURBULENTO}
+
+Para números de Reynolds acima de um certo limite\footnote{Reynolds observou em experimento os regimes pelos quais um escoamento pode passar e quais os parâmetros influenciavam na transição. Suas conclusões em cima desse trabalho foram publicadas em 1883\cite{REYNOLDS83,DAVIDSON11}}, eventuais perturbações introduzidas ao escoamento podem gerar oscilações cujas amplitudes cresçam monotonicamente, tornando-o instável hidrodinamicamente e convertendo o regime laminar em turbulento. Escoamentos turbulentos são caracterizados por
+
+\begin{itemize}
+\item alto grau de mistura
+\item riqueza de escalas
+\item caos
+\end{itemize}
+
+Osborne Reynolds introduziu a abordagem estatística ao estudo de escoamentos turbulentos em 1895 \cite{REYNOLDS95}, segundo a qual o escoamento médio é resolvido. Para escoamentos quase estacionários, médias temporais podem ser usadas \cite{FREIRE02}. Matematicamente, o conceito introduzido por Reynolds consistia na média das equações de Navier-Stokes, cujo resultado são as equações RANS -- Reynolds Averaged Navier-Stokes. Para escoamentos incompressíveis, elas são dadas por
+
+\begin{equation}
+  \frac{\D\vec{v}}{\D t}+\vec{v}\cdot\grad\vec{v}=-\frac{1}{\rho}\grad p+\nu\nabla^2\vec{v}-\div\overline{\tilde{\vec{v}}\otimes\tilde{\vec{v}}}
+  \label{eq:rans_incompressivel_1}
+\end{equation}
+
+Expandindo em coordenadas cartesianas temos
+
+\begin{subequations}
+  \begin{eqnarray}
+    \frac{\D u}{\D t}+u\frac{\D u}{\D x}+v\frac{\D u}{\D y}+w\frac{\D u}{\D z}&=&-\frac{1}{\rho}\frac{\D p}{\D x}+\nu\left(\frac{\D^2u}{\D x^2}+\frac{\D^2u}{\D y^2}+\frac{\D^2u}{\D z^2}\right)-\left(\frac{\D}{\D x}\overline{\tilde{u}\tilde{u}}+\frac{\D}{\D y}\overline{\tilde{u}\tilde{v}}+\frac{\D}{\D z}\overline{\tilde{u}\tilde{w}}\right)\\
+    \frac{\D v}{\D t}+u\frac{\D v}{\D x}+v\frac{\D v}{\D y}+w\frac{\D v}{\D z}&=&-\frac{1}{\rho}\frac{\D p}{\D y}+\nu\left(\frac{\D^2v}{\D x^2}+\frac{\D^2v}{\D y^2}+\frac{\D^2v}{\D z^2}\right)-\left(\frac{\D}{\D x}\overline{\tilde{v}\tilde{u}}+\frac{\D}{\D y}\overline{\tilde{v}\tilde{v}}+\frac{\D}{\D z}\overline{\tilde{v}\tilde{w}}\right)\\
+    \frac{\D w}{\D t}+u\frac{\D w}{\D x}+v\frac{\D w}{\D y}+w\frac{\D w}{\D z}&=&-\frac{1}{\rho}\frac{\D p}{\D z}+\nu\left(\frac{\D^2w}{\D x^2}+\frac{\D^2w}{\D y^2}+\frac{\D^2w}{\D z^2}\right)-\left(\frac{\D}{\D x}\overline{\tilde{w}\tilde{u}}+\frac{\D}{\D y}\overline{\tilde{w}\tilde{v}}+\frac{\D}{\D z}\overline{\tilde{w}\tilde{w}}\right)
+  \end{eqnarray}
+\end{subequations}
+É importante notar que o campo de velocidade $\vec{v}$ e suas componentes, bem como o campo de pressão $p$, expressam aqui os respectivos valores médios, enquanto que o campo $\tilde{\vec{v}}$ e suas componentes representam as flutuações em torno dos valores médios, conforme a decomposição de Reynolds.
+
+A dissipação introduzida pelos termos não-lineares de flutuação pode ser interpretada como um campo de tensão adicional atuando no escoamento, representado pelo tensor de tensões turbulentas dado por $\tau_t=-\rho\overline{\tilde{\vec{v}}\otimes\tilde{\vec{v}}}$, cujo divergente é
+
+\begin{equation}
+  \div\tau_t = -\rho\div\overline{\tilde{\vec{v}}\otimes\tilde{\vec{v}}}
+\end{equation}
+
+A equação \ref{eq:rans_incompressivel_1} pode portanto ser reescrita como
+
+\begin{equation}
+  \frac{\D\vec{v}}{\D t}+\vec{v}\cdot\grad\vec{v}=-\frac{1}{\rho}\grad p+\frac{1}{\rho}\div\left(\mu\grad\vec{v}+\tau_t\right)
+  \label{eq:rans_incompressivel_2}
+\end{equation}
+
+Esta formulação introduz novas variáveis ao modelo, indeterminando o sistema de equações. A estratégia clássica de fechamento do sistema é a aplicação da hipótese de Boussinesq, proposta em 1877\cite{FREIRE02}\footnote{O artigo de Reynolds propondo a decomposição dos campos em parcelas média e flutuante e dando origem ao hoje chamado tensor de Reynolds foi publicado somente em 1895. O que havia como base de conhecimento para Boussinesq fazer essa proposta em 1877?}, segundo a qual os processos de difusão da quantidade de movimento molecular e turbulento são análogos. Matematicamente, isso equivale a
+
+\begin{equation}
+  \tau_t = \mu_t\grad\vec{v}
+\end{equation}
+onde $\mu_t$ é dita viscosidade turbulenta, ou viscosidade de Boussinesq. É mais conveniente agora nos referirmos à viscosidade molecular $\mu_m$. No caso da viscosidade cinética temos portanto $\nu_t$ e $\nu_m$. Para a maioria dos números de Reynolds, $\nu_t$ é algumas ordens de grandeza superior a $\nu_m$, ou seja, as dissipações turbulentas são muito maiores do que as dissipações viscosas. Introduzindo o conceito de viscosidade turbulenta na equação \ref{eq:rans_incompressivel_2}, obtemos
+
+\begin{equation}
+  \frac{\D\vec{v}}{\D t}+\vec{v}\cdot\grad\vec{v}=-\frac{1}{\rho}\grad p+\div\left[(\nu_m+\nu_t)\grad\vec{v}\right]
+  \label{eq:rans_incompressivel_boussinesq1}
+\end{equation}
+
+A viscosidade adicional $\mu_t$ pode ser interpretada como um acréscimo dos efeitos de dissipação ao escoamento, e deve estar associada às características do escoamento.
+
+Para o escoamento desenvolvido no canal, a equação \ref{eq:rans_incompressivel_boussinesq1} se reduz a
+
+\begin{equation}
+  \frac{\D u}{\D t}=-\frac{1}{\rho}\frac{\D p}{\D x}+\frac{\D}{\D y}\left[(\nu_m+\nu_t)\frac{\D u}{\D y}\right]
+  \label{eq:rans_incompressivel_boussinesq2}
+\end{equation}
+
+\subsection{Camada limite turbulenta}
+
+A região do escoamento próxima à parede passa por transições importantes até chegar ao escoamento principal\footnote{A expressão em inglês para o escoamento principal seria ``bulk flow''.}. Essa região é a camada limite do escoamento. É bem aceito que a camada limite possui duas regiões distintas: uma adjacente à parede, na qual os efeitos viscosos predominam -- subcamada viscosa -- e uma seguinte na qual os efeitos turbulentos são mais importantes -- subcamada turbulenta. Cada uma delas possui um perfil de velocidade diferente. Essa composição é conhecida como a estrutura assintótica da camada limite turbulenta.
+
+Na subcamada viscosa, a condição do escoamento pode ser descrita por
+
+\begin{equation}
+  \mu\frac{\D^2u}{\D y^2} = 0
+\end{equation}
+
+Após integração, chegamos a
+
+\begin{equation}
+  u = \frac{Cy}{\mu}
+\end{equation}
+Tendo em vista que a tensão cisalhante $\tau_w$ na parede é
+
+\begin{equation}
+  \tau_w = \mu\frac{\D u}{\D y}
+\end{equation}
+temos que
+
+\begin{equation}
+  u = \frac{\tau_wy}{\mu}
+  \label{eq:subcamada_viscosa_dim}
+\end{equation}
+Finalmente, introduzindo uma velocidade $u_{\tau}$, denominada velocidade de atrito, definida por
+
+\begin{equation}
+  u_{\tau} = \sqrt{\frac{\tau_w}{\rho}}
+\end{equation}
+podemos adimensionalizar a equação \ref{eq:subcamada_viscosa_dim} definindo
+
+\begin{subequations}
+  \begin{eqnarray}
+    u^+ &=& \frac{u}{u_{\tau}}\\
+    y^+ &=& \frac{yu_{\tau}}{\nu}
+  \end{eqnarray}  
+\end{subequations}
+De tal forma que, para a subcamada viscosa, temos
+
+\begin{equation}
+  u^+=y^+
+\end{equation}
+
+Para a subcamada turbulenta, é necessária uma avaliação das ordens de grandeza dos termos importantes, utilizando o conceito de comprimento de mistura. \citet{FREIRE02} descrevem o desenvolvimento da expressão para a região turbulenta da camada limite. Aqui, vamos nos limitar a dizer que o perfil de velocidade na subcamada turbulenta é expresso por
+
+\begin{equation}
+  u^+=\frac{1}{\kappa}\ln y^+ + B
+\end{equation}
+onde $\kappa$ é a constante de Von Kármán, sendo normalmente $\kappa=0,41$, e $B = 5$ é um valor constante bem aceito para escoamentos em parede, baseado em resultados experimentais. A figura 3.13 de \citet{FREIRE02} apresenta um conjunto de perfis para a camada limite turbulenta obtidos de experimentos diversos.
+
+\subsection{Comprimento de mistura de Prandtl}
+
+A viscosidade turbulenta $\nu_t$ pode ser determinada através de modelo algébrico ou de modelo a uma equação diferencial ou de modelo a duas equações diferenciais (neste se enquadram os modelos $\kappa$-$\epsilon$ e $\kappa$-$\omega$).
+
+O modelo algébrico é baseado no conceito de comprimento de mistura, concebido por Ludwig Prandtl (ver \citet{FREIRE02}, capítulo 3), segundo o qual
+
+\begin{equation}
+  \nu_t = l_c^2\left|\frac{\D u}{\D y}\right|
+\end{equation}
+onde $l_c$ é o comprimento de mistura. Para escoamentos próximos a paredes sólidas (caso do escoamento no canal), 
+
+\begin{subequations}
+  \begin{eqnarray}
+    l_c&=&\kappa y\text{, para }y\leq\delta\\
+    l_c&=&\kappa \delta\text{, para }y>\delta
+  \end{eqnarray}
+\end{subequations}
+onde $\kappa$ é a constante de Von Kármán, e $\delta$ é a espessura da camada limite.
+
+Com essa definição, a variação do comprimento de mistura passa por uma descontinuidade da parede para o interior da camada limite. O comprimento de mistura pode ser calculado ainda com a aplicação de uma função de amortecimento. Normalmente é usada a função de amortecimento de Van Driest. Neste caso,
+
+\begin{equation}
+  l_c=D\kappa y\text{, para }y\leq\delta
+\end{equation}
+com
+
+\begin{equation}
+  D = 1-\exp\left(-y\frac{u_{\tau}}{A\nu}\right)
+\end{equation}
+onde $A = 26$.
+
+Cabe ressaltar que a modelagem do escoamento através da introdução da viscosidade turbulenta é uma das formas de solução do Problema de Fechamento dos modelos RANS e é dito modelo de turbulência de primeira ordem. Existem modelos nos quais as componentes do tensor de Reynolds são decompostas, dando a origem a termos com produtos de três componentes de velocidade, classificados como modelos de turbulência de segunda ordem. Um outro ponto é que, no caso particular do escoamento no canal, considerando que ele possua largura $L$, o comprimento de mistura é dado por
+
+\begin{subequations}
+  \begin{eqnarray}
+    l_c &=& \kappa y\text{, para }y\leq\delta\\
+    l_c &=& \kappa \delta\text{, para }\delta<y<L-\delta\\
+    l_c &=& \kappa(L-y)\text{, para }y\geq(L-\delta)
+  \end{eqnarray}
+\end{subequations}
+
+\subsection{Discretização}
+
+A forma discreta da equação \ref{eq:rans_incompressivel_boussinesq2} é igual à equação \ref{eq:perfil_laminar_discr}, isto é,
+
+\begin{eqnarray}
+  \frac{u_i^{n+1}-u_i^n}{\Delta t} = -\frac{1}{\rho}\frac{\D p}{\D x} &+& \alpha\frac{\nu_{i+1/2}(u_{i+1}^{n+1}-u_{i}^{n+1})-\nu_{i-1/2}(u_{i}^{n+1}-u_{i-1}^{n+1})}{\Delta y^2}+\nonumber\\ &+& (1-\alpha)\frac{\nu_{i+1/2}(u_{i+1}^n-u_{i}^n)-\nu_{i-1/2}(u_{i}^n-u_{i-1}^n)}{\Delta y^2}
+  \label{eq:perfil_turbulento_discr}
+\end{eqnarray}
+Porém com $\nu = \nu_m+\nu_t$.
+
+\section{TESTES}
+
+Uma implementação dos modelos descritos possibilitará os seguintes testes:
+
+\begin{itemize}
+   \item Para um mesmo problema, integre a solução final ao longo do domínio espacial para duas resoluções de malha diferentes. Tente observar o efeito da dissipação numérica. Quanto menor o número de pontos, maior é a quantidade de informação perdida na aproximação das derivadas. Um escoamento mais dissipativo (ainda que falsamente) resultará em valores menores de $\int_0^Ludy$.
+   \item Os perfis turbulentos são mais ``achatados'' do que os laminares, o que é possível de ser explicado a partir da definição do comprimento de mistura. Uma vez que a intensidade da turbulência é proporcional ao número de Reynolds, é possível notar que o perfil se torna mais ``achatado'' para maiores números de Reynolds.
+   \item A solução do perfil turbulento não representa o escoamento ``real''. De fato, uma vez que a solução das equações RANS fornece os campos médios, as flutuações do escoamento não são vistas pelos perfis obtidos da solução de \ref{eq:perfil_turbulento_discr}.
+   \item Tente reproduzir os perfis da camada limite turbulenta. Calcule a solução permanente do escoamento turbulento e tente observar as subcamadas viscosa e turbulenta.
+\end{itemize}
+
+%\subsection{Estrutura da camada limite turbulenta}
+
+\singlespacing
+
+\bibliographystyle{plainnat}
+\bibliography{../../../referencias/ref}
+
+%\end{multicols}
+\end{document}
