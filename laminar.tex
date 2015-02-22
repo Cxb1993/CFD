@@ -1,0 +1,108 @@
+
+\section{PERFIL LAMINAR}
+
+\subsection{Regime laminar permanente}
+
+Considere as componentes $x$ e $y$ das equações de Navier Stokes para escoamento incompressível (com viscosidade constante\footnote{Para um escoamento isotérmico, a hipótese de viscosidade constante é muito realista, uma vez que, embora ela dependa também da pressão do fluido (além da temperatura), as variações com a pressão são extremamente baixas.} e sem termo das forças de corpo):
+
+\begin{subequations}
+  \begin{eqnarray}
+    \frac{\D u}{\D t}+u\frac{\D u}{\D x}+v\frac{\D u}{\D y}&=&-\frac{1}{\rho}\frac{\D p}{\D x}+\nu\left(\frac{\D^2u}{\D x^2}+\frac{\D^2u}{\D y^2}\right)\\
+    \frac{\D v}{\D t}+u\frac{\D v}{\D x}+v\frac{\D v}{\D y}&=&-\frac{1}{\rho}\frac{\D p}{\D y}+\nu\left(\frac{\D^2v}{\D x^2}+\frac{\D^2v}{\D y^2}\right)
+  \end{eqnarray}
+\end{subequations}
+
+\begin{equation}
+  \frac{\D u}{\D x} + \frac{\D v}{\D y} = 0
+\end{equation}
+
+Para o regime permanente do escoamento, $\frac{\D u}{\D t}=\frac{\D v}{\D t}=0$.
+
+Suponha também que o escoamento seja desenvolvido, isto é,
+
+\begin{equation}
+  \frac{\D u}{\D x} = 0
+\end{equation}
+o que implica em
+
+\begin{equation}
+  \frac{\D v}{\D y} = 0
+\end{equation}
+
+Esse resultado significa que $v = \text{constante}$ ao longo de qualquer seção do canal. Mais do que isso: por causa das condições de contorno de não deslizamento, $v = 0$, em todo o domínio do escoamento.
+
+Temos portanto
+
+\begin{subequations}
+  \begin{eqnarray}
+    -\frac{1}{\rho}\frac{\D p}{\D x}+\nu\frac{\D^2u}{\D y^2}&=&0\\
+    -\frac{1}{\rho}\frac{\D p}{\D y}&=&0
+  \end{eqnarray}
+  \label{eq:sistema_laminar}
+\end{subequations}
+
+A condição de que a derivada parcial da pressão em relação a $y$ seja nula significa que $p = p(x)$, ou seja, o campo de pressão não depende da coordenada $y$. Este resultado significa que o escoamento incompressível, desenvolvido e estacionário em um canal cujos fluxos na direção $z$ são irrelevantes é modelado por
+
+\begin{equation}
+  \frac{\D p}{\D x}=\mu\frac{\D^2u}{\D y^2}
+  \label{eq:perfil_laminar_edp}
+\end{equation}
+Uma vez que a pressão depende apenas de $x$ e a velocidade $u$ depende apenas de $y$, podemos concluir que a pressão depende linearmente de $x$, de maneira que $\D p/\D x$ é constante. Dado um gradiente de pressão, a equação \ref{eq:perfil_laminar_edp} se torna uma EDO homogênea de segunda ordem, cuja solução é o perfil laminar do escoamento com as características citadas, expresso por
+
+\begin{equation}
+  u(y) = \frac{1}{2\mu}\frac{\D p}{\D x}y^2+C_1y+C_2
+\end{equation}
+com
+
+\begin{subequations}
+  \begin{eqnarray}
+    C_1 &=& \frac{u(L)-u(0)}{L}-\frac{1}{2\mu}\frac{\D p}{\D x}L\\
+    C_2 &=& u(0)
+  \end{eqnarray}
+\end{subequations}
+onde $L$ é a largura do canal. Se $u(0)=u(L)=0$, obtemos
+
+\begin{equation}
+  u(y) = \frac{1}{2\mu}\frac{\D p}{\D x}\left(y^2-Ly\right)
+  \label{eq:perfil_laminar}
+\end{equation}
+
+Considere que $u(y=L/2)=U$. Para o perfil dado pela equação \ref{eq:perfil_laminar}, temos portanto que
+
+\begin{equation}
+  U = \frac{1}{2\mu}\frac{\D p}{\D x}\left(-\frac{L^2}{4}\right)
+\end{equation}
+o que resulta em
+
+\begin{equation}
+  \frac{\D p}{\D x}=-8\frac{\mu U}{L^2}
+\end{equation}
+
+Definindo $\Re=UL\rho/\mu$, obtemos
+
+\begin{equation}
+  \frac{\D p}{\D x}=-8\frac{\mu^2\Re}{\rho L^3}
+  \label{eq:gradp}
+\end{equation}
+
+\subsection{Regime laminar transiente}
+
+O regime transiente do mesmo escoamento pode ser representado por
+
+\begin{equation}
+    \frac{\D u}{\D t}=-\frac{1}{\rho}\frac{\D p}{\D x}+\nu\frac{\D^2u}{\D y^2}
+    \label{eq:perfil_laminar_transiente}
+\end{equation}
+
+Note que agora a equação depende da densidade $\rho$ do fluido. De fato, para o regime transiente, a variação do perfil de velocidade com o tempo deve ser influenciada pela inércia do fluido, convergindo, no entanto, para um valor comum para qualquer valor de $\rho$. Note ainda que a pressão agora é também função do tempo, isto é, $p = p(x,t)$ e seu gradiente não pode mais ser calculado pela expressão \ref{eq:gradp}.
+
+\subsubsection{Discretização}
+
+Para cada nó $i$ da malha, para passo de tempo $\Delta T$ e distância entre nós uniforme igual a $\Delta y$, a discretização da equação \ref{eq:perfil_laminar_transiente} em diferenças finitas centradas é expressa por
+
+\begin{eqnarray}
+  \frac{u_i^{n+1}-u_i^n}{\Delta t} = -\frac{1}{\rho}\frac{\D p}{\D x} &+& \alpha\frac{\nu_{i+1/2}(u_{i+1}^{n+1}-u_{i}^{n+1})-\nu_{i-1/2}(u_{i}^{n+1}-u_{i-1}^{n+1})}{\Delta y^2}+\nonumber\\ &+& (1-\alpha)\frac{\nu_{i+1/2}(u_{i+1}^n-u_{i}^n)-\nu_{i-1/2}(u_{i}^n-u_{i-1}^n)}{\Delta y^2}
+  \label{eq:perfil_laminar_discr}
+\end{eqnarray}
+com $0\leq\alpha\leq 1$, e com $\nu_{i+1/2} = (\nu_{i}+\nu_{i+1})/2$ e $\nu_{i-1/2} = (\nu_{i-1}+\nu_{i})/2$.
+

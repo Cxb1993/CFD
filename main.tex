@@ -1,0 +1,145 @@
+\documentclass[a4paper,portuguese,10pt]{article}
+
+\usepackage{setspace}
+\usepackage[hang,footnotesize]{caption}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+%\usepackage{hyperref}
+\usepackage[colorlinks=true]{hyperref}
+\hypersetup{
+  linkcolor=black,
+  citecolor=blue,
+}
+%\usepackage{setspace}
+%\usepackage{abntcite}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{nonfloat}
+\usepackage{semtrans}
+\usepackage[margin=2cm]{geometry}
+\usepackage[portuguese]{babel}
+\usepackage[fixlanguage]{babelbib}
+\selectbiblanguage{portuguese}
+\usepackage[svgnames]{xcolor} % Specify colors by their 'svgnames'; list of all colors available: http://www.latextemplates.com/svgnames-colors
+\usepackage{titlesec}
+\usepackage[numbers]{natbib}
+\usepackage{nomencl}
+\usepackage{ifthen}
+\usepackage{multicol} % use of multiple columns
+\usepackage{fancyhdr}
+\usepackage{tikz}
+\usetikzlibrary{shapes,shadows,arrows}
+%\usepackage{draftwatermark}
+%\SetWatermarkText{ANNEX 2}
+%\SetWatermarkScale{3}
+%\SetWatermarkColor[rgb]{red!60}
+\columnsep=8mm
+%\columnseprule=1pt
+
+\newcommand{\p}{\parallel}
+\newcommand{\m}{\mid}
+\newcommand{\del}{\bigtriangleup}
+\newcommand{\lb}{\linebreak}
+\newcommand{\nl}{\newline}
+%\renewcommand{\div}{{\,\rm div}\,}
+\renewcommand{\div}{{\,\nabla\cdot}\,}
+%\newcommand{\grad}{\,\rm {grad}\,}
+\newcommand{\grad}{\,\rm \nabla\,}
+\renewcommand{\D}{\partial}
+\newcommand{\RR}{\mathbb{R}}
+\renewcommand{\vec}{\mathbf}
+\newcommand{\esp}{\text{\hspace{2mm}}}
+\newcommand{\dgs}{\textordmasculine}
+\renewcommand{\max}{\operatorname{max}}
+\newcommand{\Ra}{\operatorname{Ra}}
+\renewcommand{\Re}{\operatorname{Re}}
+\newcommand{\Gr}{\operatorname{Gr}}
+\newcommand{\St}{\operatorname{St}}
+\renewcommand{\Pr}{\operatorname{Pr}}
+\newcommand{\CFL}{\operatorname{CFL}}
+
+%\setlength{\hoffset}{-1cm}
+%\setlength{\textwidth}{17cm}
+%\setlength{\parskip}{1cm plus4mm minus3mm}
+\setlength{\parskip}{2mm}
+\setlength{\parindent}{0mm} % Default is 15pt.
+\titleformat*{\section}{\normalsize\bfseries}
+\titleformat*{\subsection}{\normalsize\bfseries}
+\titleformat*{\subsubsection}{\normalsize}
+
+\renewcommand{\refname}{\normalsize{References}}
+\renewcommand{\nomname}{List of Symbols}
+
+\renewcommand{\nomgroup}[1]{%
+\ifthenelse{\equal{#1}{R}}{\item[\textbf{Roman letters}]}{%
+\ifthenelse{\equal{#1}{G}}{\item[Greek letters]}{}}}
+
+\pagestyle{fancy}
+\lhead{}
+\rhead{\small{ESCOAMENTO EM CANAL - Modelos 1D}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\thispagestyle{empty}
+
+\begin{minipage}{0.5\linewidth}
+	\large\textbf{CURSO DE ESCOAMENTOS\\MULTIFÁSICOS}
+\end{minipage}
+\begin{minipage}{0.5\linewidth}
+	\flushright
+	\includegraphics[height=18mm]{figs/logouerj.jpg}
+	\hspace{.5cm}
+	\includegraphics[height=16mm]{figs/logo_ppg-em.jpg}
+\end{minipage}
+
+\hrulefill
+
+%\begin{minipage}[b]{0.5\linewidth}
+\Large \color{NavyBlue} \textbf{ESCOAMENTO EM CANAL - Modelos 1D}\\
+\color{Black}\\ % Title
+%\vspace{-.5cm}
+\normalsize \texttt{Preparado por: Leon Lima e Gustavo Anjos}\\
+\normalsize \texttt{\today}
+%\end{minipage}
+
+%\begin{minipage}[b]{0.5\linewidth}
+%\flushright
+%\includegraphics[height=2cm]{../../imagens/logoeletronuclear.jpg}
+%\hspace{.5cm}
+%\includegraphics[height=2cm]{../../imagens/logouerj.jpg}\\
+%\end{minipage}
+
+\hrulefill
+\begin{center}
+	\begin{minipage}{0.8\linewidth}
+		\footnotesize{\textbf{Resumo.} Este texto apresenta os pontos
+		principais da modelagem matemática de escoamento incompressível,
+		desenvolvido, em regimes laminar e turbulento, permanente e
+		transiente, em canal aberto. Conceitos básicos de turbulência
+		são sucintamente apresentados. Além disso, a discretização das
+		equações de escoamento em canal 1D utilizando o método das
+		diferenças finitas e o método de elementos finitos é apresenta
+		para os perfis laminar e turbulento.}
+	\end{minipage}
+\end{center}
+
+%\begin{multicols}{2}
+{\footnotesize\tableofcontents}
+\hrulefill\\
+\onehalfspacing
+\vspace{10mm}
+
+\input{laminar}
+\input{turbulento}
+\input{mef}
+\input{testes}
+
+\singlespacing
+
+\bibliographystyle{plainnat}
+\bibliography{../../../referencias/ref}
+
+%\end{multicols}
+\end{document}
