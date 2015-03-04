@@ -1,0 +1,322 @@
+\documentclass[a4paper,portuguese,10pt]{article}
+
+\usepackage{setspace}
+%\usepackage[hang,footnotesize]{caption}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+%\usepackage{hyperref}
+\usepackage[colorlinks=true]{hyperref}
+\hypersetup{
+  linkcolor=blue,
+  citecolor=blue,
+}
+%\usepackage{setspace}
+%\usepackage{abntcite}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{nonfloat}
+\usepackage{semtrans}
+\usepackage[margin=2cm]{geometry}
+\usepackage[portuguese]{babel}
+\usepackage[fixlanguage]{babelbib}
+\selectbiblanguage{portuguese}
+\usepackage[svgnames]{xcolor} % Specify colors by their 'svgnames'; list of all colors available: http://www.latextemplates.com/svgnames-colors
+\usepackage{titlesec}
+\usepackage[numbers]{natbib}
+\usepackage{nomencl}
+\usepackage{ifthen}
+\usepackage{multicol} % use of multiple columns
+\usepackage{fancyhdr}
+\usepackage{draftwatermark}
+\SetWatermarkText{PRELIMINAR}
+\SetWatermarkScale{3}
+%\SetWatermarkColor[rgb]{0,1,0}
+\SetWatermarkLightness{.9}
+
+\columnsep=8mm
+%\columnseprule=1pt
+
+\makenomenclature
+% no build the list of symbols, use the following command:
+% makeindex report_Leon_TUD_02-June.nlo -s nomencl.ist -o report_Leon_TUD_02-June.nls
+
+\onehalfspacing
+
+
+\newcommand{\Y}{\hat\Psi}
+\newcommand{\Yb}{\overline\Psi}
+\newcommand{\p}{\parallel}
+\newcommand{\m}{\mid}
+\newcommand{\del}{\bigtriangleup}
+\newcommand{\lb}{\linebreak}
+\newcommand{\nl}{\newline}
+%\renewcommand{\div}{{\,\rm div}\,}
+\renewcommand{\div}{\nabla\cdot}
+%\newcommand{\grad}{\,\rm {grad}\,}
+\newcommand{\grad}{\nabla}
+\renewcommand{\S}{\sum_{i=1}^n}
+\renewcommand{\D}{\partial}
+\newcommand{\vecv}{\mathbf{v}}
+\newcommand{\um}{\overline{u}}
+\newcommand{\vm}{\overline{v}}
+\newcommand{\wm}{\overline{w}}
+\renewcommand{\pm}{\overline{p}}
+\newcommand{\vecvm}{\overline{\mathbf{v}}}
+\newcommand{\uf}{\tilde{u}}
+\newcommand{\vf}{\tilde{v}}
+\newcommand{\wf}{\tilde{w}}
+\newcommand{\pf}{\tilde{p}}
+\newcommand{\vecvf}{\tilde{\mathbf{v}}}
+\newcommand{\RR}{\mathbb{R}}
+\renewcommand{\vec}{\mathbf}
+\newcommand{\esp}{\text{\hspace{2mm}}}
+\newcommand{\dgs}{\textordmasculine}
+\renewcommand{\max}{\operatorname{max}}
+\newcommand{\Ra}{\operatorname{Ra}}
+\renewcommand{\Re}{\operatorname{Re}}
+\newcommand{\Gr}{\operatorname{Gr}}
+\newcommand{\St}{\operatorname{St}}
+\renewcommand{\Pr}{\operatorname{Pr}}
+\newcommand{\CFL}{\operatorname{CFL}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\e}{\operatorname{e}}
+
+%\setlength{\hoffset}{-1cm}
+%\setlength{\textwidth}{17cm}
+%\setlength{\parskip}{1cm plus4mm minus3mm}
+\setlength{\parskip}{2mm}
+\setlength{\parindent}{0mm} % Default is 15pt.
+\titleformat*{\section}{\normalsize\bfseries}
+\titleformat*{\subsection}{\normalsize}
+
+\renewcommand{\refname}{\normalsize{References}}
+\renewcommand{\nomname}{List of Symbols}
+
+\renewcommand{\nomgroup}[1]{%
+\ifthenelse{\equal{#1}{R}}{\item[\textbf{Roman letters}]}{%
+\ifthenelse{\equal{#1}{G}}{\item[Greek letters]}{}}}
+
+\pagestyle{fancy}
+\lhead{}
+\rhead{\small{Equação de Orr-Sommerfeld}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\input{header}
+
+%\vspace{5mm}
+\Large \color{NavyBlue} \textbf{EQUAÇÃO DE ORR-SOMMERFELD}\\
+\color{Black} % Title
+\normalsize \texttt{Preparado por: Leon Lima}\\%[0.5cm] % Author(s)
+\normalsize \texttt{\today}
+\vspace{-2mm}
+
+\setcounter{tocdepth}{1}
+\hrulefill\\
+
+%\vspace*{-5mm}
+%\tableofcontents
+%\hrulefill
+
+\section{Introdução}
+
+Escoamentos turbulentos são gerados por perturbações introduzidas no regime laminar. Em escoamentos laminares instáveis, eventuais perturbações geram oscilações crescentes que conduzem à turbulência. A estabilidade hidrodinâmica do regime transicional entre o escoamento laminar e o turbulento é, portanto, de grande relevância, tendo sido alvo de muitos estudos desde o início do século XX \cite{SCHLICHTING00}.
+
+A equação de Orr-Sommerfeld modela o comportamento de um escoamento laminar paralelo incompressível quanto às oscilações geradas a partir de uma perturbação.
+
+O texto que segue busca apresentar passo a passo o procedimento matemático para se chegar à equação de Orr-Sommerfeld, abrindo mão do rigor matemático. Parte deste texto teve como base o livro de \citet{SCHLICHTING00}.
+
+\section{Desenvolvimento}
+
+Seja $\vecv = u\vec{i}+v\vec{j}$ o campo de velocidade de um escoamento incompressível, em duas dimensões, com propriedades constantes e sem o termo de forças. As equações de Navier-Stokes para este escoamento é expressa por
+
+\begin{equation}
+  \frac{\D u}{\D x}+\frac{\D v}{\D y} = 0
+  \label{eq_cont}
+\end{equation}
+
+\begin{equation}
+  \frac{\D u}{\D t}+u\frac{\D u}{\D x}+v\frac{\D u}{\D y}=-\frac{1}{\rho}\frac{\D p}{\D x}+\nu\left(\frac{\D^2u}{\D x^2}+\frac{\D^2u}{\D y^2}\right)
+  \label{eq_qdm_u}
+\end{equation}
+
+\begin{equation}
+  \frac{\D v}{\D t}+u\frac{\D v}{\D x}+v\frac{\D v}{\D y}=-\frac{1}{\rho}\frac{\D p}{\D y}+\nu\left(\frac{\D^2v}{\D x^2}+\frac{\D^2v}{\D y^2}\right)
+  \label{eq_qdm_v}
+\end{equation}
+
+Seja $\Psi$ a função de corrente deste escoamento, i.e.,
+
+\begin{subequations}
+  \begin{eqnarray}
+    u &=& \frac{\D\Psi}{\D y}\\
+    v &=& -\frac{\D\Psi}{\D x}
+  \end{eqnarray}
+\end{subequations}
+
+Na sequência do desenvolvimento, as derivadas parciais de um dado campo serão denotadas através de um subescrito indicando a variável em relação à qual o campo foi derivado, e.g., $\D\Psi/\D t$ será denotada por $\Psi_t$, e $\D/\D x(\D\Psi/\D t)$ será $\Psi_{tx}$.
+
+As equações de Navier-Stokes (eqs. \ref{eq_cont}-\ref{eq_qdm_v}) podem ser escritas em termos da função de corrente, resultando em
+
+\begin{subequations}
+  \begin{eqnarray}
+    \label{eq_psi_u_01}
+    \Psi_{yt}+\Psi_y\Psi_{yx}-\Psi_x\Psi_{yy}&=&-\frac{1}{\rho}p_x+\nu\left[\Psi_{yxx}+\Psi_{yyy}\right]\\
+    \label{eq_psi_v_01}
+    -\Psi_{xt}-\Psi_y\Psi_{xx}+\Psi_x\Psi_{xy}&=&-\frac{1}{\rho}p_y+\nu\left[-\Psi_{xxx}-\Psi_{xyy}\right]
+  \end{eqnarray}
+\end{subequations}
+
+Derivando a equação \ref{eq_psi_u_01} em relação a $y$ e a equação \ref{eq_psi_v_01} em relação a $x$, obtemos
+
+\begin{subequations}
+  \begin{eqnarray}
+    \label{eq_psi_u_02}
+    \Psi_{yty}+\Psi_{yy}\Psi_{yx}+\Psi_{y}\Psi_{yxy}-\Psi_{xy}\Psi_{yy}-\Psi_{yyy}\Psi_{x}&=&-\frac{1}{\rho}p_{xy}+\nu\left[\Psi_{yxxy}+\Psi_{yyyy}\right]\\
+    \label{eq_psi_v_02}
+    -\Psi_{xtx}-\Psi_{yx}\Psi_{xx}-\Psi_{y}\Psi_{xxx}+\Psi_{xx}\Psi_{xy}+\Psi_{xyx}\Psi_{x}&=&-\frac{1}{\rho}p_{yx}+\nu\left[-\Psi_{xxxx}-\Psi_{xyyx}\right]
+  \end{eqnarray}
+\end{subequations}
+
+Subtraindo a equação \ref{eq_psi_v_02} da \ref{eq_psi_u_02}, chegamos a
+
+\begin{equation}
+  \nabla^2\Psi_t+\Psi_{yx}\nabla^2\Psi+\Psi_y\nabla^2\Psi_x-\Psi_{xy}\nabla^2\Psi-\Psi_x\nabla^2\Psi_y=\nu\left[\nabla^2\Psi_{xx}+\nabla^2\Psi_{yy}\right]
+  \label{eq_psi_01}
+\end{equation}
+onde $\nabla^2$ representa o operador laplaciano. Considerando que $\Psi_{yx}\nabla^2\Psi=\Psi_{xy}\nabla^2\Psi$, a equação \ref{eq_psi_01} pode ser reescrita como
+
+\begin{equation}
+  \nabla^2\Psi_t+\Psi_y\nabla^2\Psi_x-\Psi_x\nabla^2\Psi_y=\nu\nabla^2\left(\nabla^2\Psi\right)
+  \label{eq_psi_02}
+\end{equation}
+
+Considere agora a introdução de uma perturbação no escoamento através da função de corrente, a qual pode ser decomposta num campo base $\Yb$ e uma flutuação $\Y$, i.e.,
+
+\begin{equation}
+  \Psi = \Yb+\Y
+\end{equation}
+
+Substituindo na equação \ref{eq_psi_02}, obtemos
+
+\begin{equation}
+  \nabla^2\Yb_t+\nabla^2\Y_t+(\Yb_y+\Y_y)\nabla^2(\Yb_x+\Y_x)-(\Yb_x+\Y_x)\nabla^2(\Yb_y+\Y_y)=\nu\nabla^2\left(\nabla^2\Yb\right)+\nu\nabla^2\left(\nabla^2\Y\right)
+  \label{eq_psi_03}
+\end{equation}
+Considere agora a hipótese de que o escoamento base, com campo de velocidade $\vec{V}=U\vec{i}+V\vec{j}$, seja desenvolvido, i.e., $U=U(y)$, resultando em $\D U/\D x=0$. Supondo condição de não-deslizamento na parede, pela conservação de massa, temos que $V=0$, o que implica em $\Yb_x=0$. Levando em conta que o escoamento base $\Yb$ é solução para a equação \ref{eq_psi_02}, a equação \ref{eq_psi_03} pode ser dada por
+
+\begin{equation}
+  \nabla^2\Y_t+\Yb_y\nabla^2\Y_x+\Y_y\nabla^2\Y_x-\Y_x\nabla^2\Yb_y-\Y_x\nabla^2\Y_y=\nu\nabla^2\left(\nabla^2\Y\right)
+  \label{eq_psi_04}
+\end{equation}
+
+Uma outra hipótese é a de pequenas perturbações. Isso faz com que os dois termos da equação \ref{eq_psi_04} com produto entre flutuações possam ser desprezados, resultando em
+
+\begin{equation}
+  \nabla^2\Y_t+\Yb_y\nabla^2\Y_x-\Y_x\nabla^2\Yb_y=\nu\nabla^2\left(\nabla^2\Y\right)
+  \label{eq_psi_05}
+\end{equation}
+o que, levando em conta que $\Yb_y=U$ e que $\nabla^2U = U''$ (uma vez que $\D U/\D x=0$), pode ser reescrito como
+
+\begin{equation}
+  \nabla^2\Y_t+U\nabla^2\Y_x-\Y_xU''=\nu\nabla^2\left(\nabla^2\Y\right)
+  \label{eq_psi_06}
+\end{equation}
+
+Considere que a perturbação $\Y$ consista de uma onda simples (único modo) propagando na direção $x$, dada por
+
+\begin{equation}
+  \Y(x,y,t)=\phi(y)\e^{i(kx-\omega t)}
+  \label{eq_perturbacao}
+\end{equation}
+onde $k$ é um número real tal que $2\pi/k$ é o comprimento de onda da perturbação, e $\omega$ é um número complexo cuja parte real $\omega_r$ é a frequência do modo e a parte imaginária $\omega_i$ é o fator de amplificação. Se $\omega_i>0$, o escoamento laminar é instável, enquanto que, se $\omega_i<0$, ele é estável.
+
+Vamos agora escrever cada uma das parcelas da equação \ref{eq_psi_06} introduzindo a perturbação definida por \ref{eq_perturbacao}.
+
+\begin{subequations}
+  \begin{eqnarray}
+    \nabla^2\Y_t&=&(k^2\phi-\phi'')i\omega\e^{i(kx-\omega t)}\\
+    U\nabla^2\Y_x&=&U(\phi''-k^2\phi)ik\e^{i(kx-\omega t)}\\
+    \Y_xU''&=&ikU''\phi\e^{i(kx-\omega t)}\\
+    \nu\nabla^2(\nabla^2\Y)&=&(-2k^2\phi''+k^4\phi+\phi'''')\e^{i(kx-\omega t)}
+  \end{eqnarray}
+\end{subequations}
+Como $\e^{i(kx-\omega t)}$ é comum a todos os termos, a equação \ref{eq_psi_06} resulta em
+
+\begin{equation}
+  (k^2\phi-\phi'')i\omega+U(\phi''-k^2\phi)ik-U''ik\phi=\nu(-2k^2\phi''+k^4\phi+\phi'''')
+  \label{eq_phi_01}
+\end{equation}
+dividindo a equação \ref{eq_phi_01} por $ik$, obtemos
+
+\begin{equation}
+  (k\phi-\phi''/k)\omega+U(\phi''-k^2\phi)-U''\phi=\frac{\nu}{ik}(-2k^2\phi''+k^4\phi+\phi'''')
+  \label{eq_phi_02}
+\end{equation}
+Definindo $c=w/k$ e rearranjando, chegamos a
+
+\begin{equation}
+  (U-c)(\phi''-k^2\phi)-U''\phi=\frac{\nu}{ik}(-2k^2\phi''+k^4\phi+\phi'''')
+\end{equation}
+
+Esta equação diferencial de perturbação é o ponto de partida para a teoria de estabilidade de escoamentos laminares, e é chamada de Equação de Orr-Sommerfeld, em honra a William McFadden Orr (1907) e Arnold Sommerfeld (1908). Em sua forma adimensional, ela é dada por
+
+\begin{equation}
+  (U-c)(\phi''-k^2\phi)-U''\phi=\frac{1}{ik\Re}(-2k^2\phi''+k^4\phi+\phi'''')
+\end{equation}
+Aqui, evidentemente, as variáveis devem ser interpretadas como adimensionalizadas.
+
+\section{Problema de auto-valor}
+
+É usual que se possa controlar o comprimento de onda da perturbação $2\pi/k$, e que o $\Re$ seja um parâmetro conhecido do escoamento, de maneira que a solução da equação de Orr-Sommerfeld forneça, para um par $(k,\Re)$, o valor de $\omega$, através do qual a estabilidade do escoamento laminar base é avaliada.
+
+A equação de Orr-Sommerfeld pode ser rearranjada de tal forma que obtemos
+
+\begin{equation}
+  -\frac{1}{ik\Re}\phi''''+\left(U-c+\frac{2k}{i\Re}\right)\phi''+\left(ck^2-Uk^2-U+\frac{2k}{i\Re}\right)\phi=0
+  \label{eq_o-s_02}
+\end{equation}
+
+Discretizando o domínio de $U$  e $\phi$, as derivadas $\phi''''$ e $\phi''$ podem ser aproximadas, em diferenças finitas centradas de 2ª ordem, respectivamente por
+
+\begin{equation}
+  \phi'''' \approx \frac{\phi_{i-2}-4\phi_{i-1}+6\phi_i-4\phi_{i+1}+\phi_{i+2})}{\Delta y^4}
+\end{equation}
+
+\begin{equation}
+  \phi'' \approx \frac{\phi_{i-1}-2\phi_i+\phi_{i+1}}{\Delta y^2}
+\end{equation}
+onde $i$ é o índice identificador do nó. A forma discreta da equação \ref{eq_o-s_02} pode ser expressa na forma matricial da seguinte forma:
+
+\begin{equation}
+  -\frac{1}{ik\Re}\vec{M}\phi+\left(U-c+\frac{2k}{i\Re}\right)\vec{N}\phi+\left(ck^2-Uk^2-U+\frac{2k}{i\Re}\right)\phi=0
+  \label{eq_o-s_discreta_01}
+\end{equation}
+
+Definindo a matriz $\vec{A}$ tal que 
+
+\begin{equation}
+\vec{A}=-\frac{1}{ik\Re}\vec{M}+\left(U-c+\frac{2k}{i\Re}\right)\vec{N}
+\end{equation}
+e o campo escalar $\lambda$ tal que
+
+\begin{equation}
+\lambda=-\left(ck^2-Uk^2-U+\frac{2k}{i\Re}\right)
+\end{equation}
+podemos estabelecer o problema de auto-valor expresso por
+
+\begin{equation}
+  \vec{A}\phi = \lambda\phi
+\end{equation}
+em que $\lambda$ são os auto-valores da matriz $\vec{A}$.
+
+\singlespacing
+%\printnomenclature
+
+\bibliographystyle{plainnat}
+\bibliography{ref}
+
+\end{document}
