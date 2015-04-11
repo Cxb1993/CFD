@@ -96,13 +96,3 @@ O regime transiente do mesmo escoamento pode ser representado por
 
 Note que agora a equação depende da densidade $\rho$ do fluido. De fato, para o regime transiente, a variação do perfil de velocidade com o tempo deve ser influenciada pela inércia do fluido, convergindo, no entanto, para um valor comum para qualquer valor de $\rho$. Note ainda que a pressão agora é também função do tempo, isto é, $p = p(x,t)$ e seu gradiente não pode mais ser calculado pela expressão \ref{eq:gradp}.
 
-\subsubsection{Discretização}
-
-Para cada nó $i$ da malha, para passo de tempo $\Delta T$ e distância entre nós uniforme igual a $\Delta y$, a discretização da equação \ref{eq:perfil_laminar_transiente} em diferenças finitas centradas é expressa por
-
-\begin{eqnarray}
-  \frac{u_i^{n+1}-u_i^n}{\Delta t} = -\frac{1}{\rho}\frac{\D p}{\D x} &+& \alpha\frac{\nu_{i+1/2}(u_{i+1}^{n+1}-u_{i}^{n+1})-\nu_{i-1/2}(u_{i}^{n+1}-u_{i-1}^{n+1})}{\Delta y^2}+\nonumber\\ &+& (1-\alpha)\frac{\nu_{i+1/2}(u_{i+1}^n-u_{i}^n)-\nu_{i-1/2}(u_{i}^n-u_{i-1}^n)}{\Delta y^2}
-  \label{eq:perfil_laminar_discr}
-\end{eqnarray}
-com $0\leq\alpha\leq 1$, e com $\nu_{i+1/2} = (\nu_{i}+\nu_{i+1})/2$ e $\nu_{i-1/2} = (\nu_{i-1}+\nu_{i})/2$.
-
