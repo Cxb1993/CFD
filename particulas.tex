@@ -4,7 +4,32 @@
 \typeout{ e-mail: gustavo.rabello@gmail.com                                   }
 \typeout{ ====================================================================}
 
-\section{Partículas}
+\section{PARTÍCULAS}
+
+Em dinâmica dos fluidos, a equação de Basset-Boussinesq-Oseen (BBO)
+descreve o movimento e as forças que atuam em partículas pequenas para
+escoamentos transiente com baixo número de Reynolds. Sua formulação pode
+ser encontrada de diversas formas. 
+
+\begin{equation}
+	\frac{\pi}{6} \rho_p d_p^3 \frac{du_p}{dt} 
+	=
+	3 \pi \mu d_p (u_f-u_p)
+	-
+	\frac{\pi}{6} d_p^3 \nabla p
+	+
+	\frac{\pi}{12} \rho_f d_p^3 \frac{d}{dt}(u_f-u_p)
+	+
+	\frac{3}{2} d_p^2 \sqrt(\pi \rho_f \mu) \cdots
+	+
+	\sum F_k
+\end{equation}
+
+\noindent onde o primeiro termo do lado direto da equação representa o
+arrasto, o segundo termo representa o gradiente de pressão, o terceiro
+a força virtual, o quarto a força de Basset e o quinto termo representa
+qualquer outra força que deva ser levada em consideração, como por
+exemplo a força de gravidade.
 
 \begin{equation}
 	\sum F = ma = m \frac{D \mathbf{u}}{D t}

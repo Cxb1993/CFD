@@ -6,7 +6,64 @@
 
 \section{MÉTODO DE DIFERENÇAS FINITAS}
 
-Laminar transiente:
+\subsection{Laminar permanente}
+
+\begin{equation}
+	\frac{\partial}{\partial y} \nu \frac{\partial u}{\partial y}
+	=
+	\frac{1}{\rho} \frac{\partial p}{\partial x}
+\end{equation}
+
+A discretização em diferenças finitas unidimensional é feita para um
+ponto genérico de malha $i$ e distância entre nós uniforme igual a
+$\Delta y$, a discretização da equação \ref{eq:perfil_laminar_edp} em
+diferenças finitas centradas é expressa por:
+
+\begin{eqnarray}
+	\frac{\nu_{i+1/2}(u_{i+1}-u_{i})
+	-
+	\nu_{i-1/2}(u_{i}-u_{i-1})}{\Delta y^2} 
+	=
+	\frac{1}{\rho}\frac{\D p}{\D x} 
+\label{eq:perfil_laminar_discr}
+\end{eqnarray}
+
+Note que a viscosidade cinemática $\nu = \mu \ \rho$ é discretizada no
+ponto médio dos segmentos da malha em diferenças finitas $i+1/2$ e
+$i-1/2$, tomando-se então $\nu_{i+1/2} = (\nu_{i}+\nu_{i+1})/2$ e
+$\nu_{i-1/2} = (\nu_{i-1}+\nu_{i})/2$.
+
+Para a montagem (``\emph{assembling}'') da matriz do termo difusivo A da
+equação em regime permanente, separe-se os coeficientes $i-1$, $i$ e
+$i+1$ e organiza-se em colunas, uma vez que esta matriz é simétrica,
+dentro de um laço (``\emph{loop}'') do tipo:
+
+\begin{itemize}
+	\item{coluna j-1:}
+		\begin{equation}
+			\frac{\nu_{i-1/2}}{\Delta y^2}
+		\end{equation}
+	\item{coluna j:}
+		\begin{equation}
+			\frac{-\nu_{i+1/2}-\nu_{i-1/2}}{\Delta y^2}
+		\end{equation}
+	\item{coluna j+1:}
+		\begin{equation}
+			\frac{\nu_{i+1/2}}{\Delta y^2}
+		\end{equation}
+\end{itemize}
+
+Para a montagem do vetor do lado direto:
+
+\begin{itemize}
+	\item{linha i:}
+		\begin{eqnarray}
+			\frac{1}{\rho}\frac{\partial p}{\partial x} 
+		\end{eqnarray}
+\end{itemize}
+
+
+\subsection{Laminar transiente}
 
 \begin{equation}
 	\frac{\partial u}{\partial t}
@@ -15,11 +72,13 @@ Laminar transiente:
 	+ \frac{\partial}{\partial y} \nu \frac{\partial u}{\partial y}
 \end{equation}
 
-A discretização em diferenças finitas unidimensional é feita para um
-ponto genérico de malha $i$, para passo de tempo $\Delta T$ e distância
-entre nós uniforme igual a $\Delta y$, a discretização da equação
-\ref{eq:perfil_laminar_transiente} em diferenças finitas centradas é
-expressa por:
+A discretização em diferenças finitas unidimensional é da mesma forma
+que no caso de escoamento laminar estacionário, porém com a inclusão da
+derivada transiente ($\partial /\partial t$) na equação. Com isso, para
+um ponto genérico de malha $i$, para passo de tempo $\Delta T$ e
+distância entre nós uniforme igual a $\Delta y$, a discretização da
+equação \ref{eq:perfil_laminar_transiente} em diferenças finitas
+centradas é expressa por:
 
 \begin{eqnarray}
   \frac{u_i^{n+1}-u_i^n}{\Delta t} = -\frac{1}{\rho}\frac{\D p}{\D x} &+&
@@ -33,13 +92,14 @@ expressa por:
 Note que $\alpha$ representa uma variável limitada por $0\leq\alpha\leq
 1$ que ajusta o esquema discreto no tempo em explícito $\alpha=0$,
 implícito $\alpha=1$ e de segunda ordem do tipo Crank-Nicholson para
-$\alpha=1/2$. A viscosidade cinemática $\nu = \frac{\mu}{\rho}$ é
+$\alpha=1/2$. A viscosidade cinemática $\nu = \mu \ \rho$ é
 discretizada no ponto médio dos segmentos da malha em diferenças finitas
 $i+1/2$ e $i-1/2$, tomando-se então $\nu_{i+1/2} =
 (\nu_{i}+\nu_{i+1})/2$ e $\nu_{i-1/2} = (\nu_{i-1}+\nu_{i})/2$.
 
-Para a montagem (``\emph{assembling}'') da matriz do termo difusivo A,
-propoê-se um esquema dentro de um laço (``\emph{loop}'') do tipo:
+Para a montagem (``\emph{assembling}'') da matriz do termo difusivo A da
+equação em regime transiente, propoê-se um esquema dentro de um laço
+(``\emph{loop}'') do tipo:
 
 \begin{itemize}
 	\item{coluna j-1:}
@@ -72,6 +132,10 @@ Para a montagem do vetor do lado direto:
 \end{itemize}
 
 \subsection{Condições de Contorno}
+
+\subsection{Turbulento transiente}
+
+
 
 
 \typeout{ ****************** End of file mdf.tex ****************** }
