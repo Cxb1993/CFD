@@ -1,15 +1,30 @@
 
 \section{PERFIL TURBULENTO}
 
-Para números de Reynolds acima de um certo limite\footnote{Reynolds observou em experimento os regimes pelos quais um escoamento pode passar e quais os parâmetros influenciavam na transição. Suas conclusões em cima desse trabalho foram publicadas em 1883\cite{REYNOLDS83,DAVIDSON11}}, eventuais perturbações introduzidas ao escoamento podem gerar oscilações cujas amplitudes cresçam monotonicamente, tornando-o instável hidrodinamicamente e convertendo o regime laminar em turbulento. Escoamentos turbulentos são caracterizados por
+Para números de Reynolds acima de um certo limite\footnote{Reynolds
+observou em experimento os regimes pelos quais um escoamento pode passar
+e quais os parâmetros influenciavam na transição. Suas conclusões em
+cima desse trabalho foram publicadas em
+1883\cite{REYNOLDS83,DAVIDSON11}}, eventuais perturbações introduzidas
+ao escoamento podem gerar oscilações cujas amplitudes cresçam
+monotonicamente, tornando-o instável hidrodinamicamente e convertendo o
+regime laminar em turbulento. Escoamentos turbulentos são caracterizados
+por:
 
 \begin{itemize}
 \item alto grau de mistura
 \item riqueza de escalas
-\item caos
+\item imprevisibilidade
 \end{itemize}
 
-Osborne Reynolds introduziu a abordagem estatística ao estudo de escoamentos turbulentos em 1895 \cite{REYNOLDS95}, segundo a qual o escoamento médio é resolvido. Para escoamentos quase estacionários, médias temporais podem ser usadas \cite{FREIRE02}. Matematicamente, o conceito introduzido por Reynolds consistia na média das equações de Navier-Stokes, cujo resultado são as equações RANS -- Reynolds Averaged Navier-Stokes. Para escoamentos incompressíveis, elas são dadas por
+Osborne Reynolds introduziu a abordagem estatística ao estudo de
+escoamentos turbulentos em 1895 \cite{REYNOLDS95}, segundo a qual o
+escoamento médio é resolvido. Para escoamentos quase estacionários,
+médias temporais podem ser usadas \cite{FREIRE02}. Matematicamente, o
+conceito introduzido por Reynolds consistia na média das equações de
+Navier-Stokes, cujo resultado são as equações RANS -- \textit{Reynolds
+Averaged Navier-Stokes}. Para escoamentos incompressíveis, elas são
+dadas por
 
 \begin{equation}
   \frac{\D\vec{v}}{\D t}+\vec{v}\cdot\grad\vec{v}=-\frac{1}{\rho}\grad p+\nu\nabla^2\vec{v}-\div\overline{\tilde{\vec{v}}\otimes\tilde{\vec{v}}}
@@ -117,12 +132,18 @@ onde $\kappa$ é a constante de Von Kármán, sendo normalmente $\kappa=0,41$, e
 
 A viscosidade turbulenta $\nu_t$ pode ser determinada através de modelo algébrico ou de modelo a uma equação diferencial ou de modelo a duas equações diferenciais (neste se enquadram os modelos $\kappa$-$\epsilon$ e $\kappa$-$\omega$).
 
-O modelo algébrico é baseado no conceito de comprimento de mistura, concebido por Ludwig Prandtl (ver \citet{FREIRE02}, capítulo 3), segundo o qual
+O modelo algébrico é baseado no conceito de comprimento de mistura,
+concebido por Ludwig Prandtl (ver \citet{FREIRE02}, capítulo 3), que
+define o quanto a partícula deve se afastar para perder sua identidade e
+misturar-se com as outras. A viscosidade turbulenta é então definida
+por:
 
 \begin{equation}
   \nu_t = l_c^2\left|\frac{\D u}{\D y}\right|
 \end{equation}
-onde $l_c$ é o comprimento de mistura. Para escoamentos próximos a paredes sólidas (caso do escoamento no canal), 
+
+onde $l_c$ é o comprimento de mistura. Para escoamentos próximos a
+paredes sólidas (caso do escoamento no canal), 
 
 \begin{subequations}
   \begin{eqnarray}

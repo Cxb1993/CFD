@@ -10,20 +10,22 @@ Considere as componentes $x$ e $y$ das equações de Navier Stokes para escoamen
     \frac{\D u}{\D t}+u\frac{\D u}{\D x}+v\frac{\D u}{\D y}&=&-\frac{1}{\rho}\frac{\D p}{\D x}+\nu\left(\frac{\D^2u}{\D x^2}+\frac{\D^2u}{\D y^2}\right)\\
     \frac{\D v}{\D t}+u\frac{\D v}{\D x}+v\frac{\D v}{\D y}&=&-\frac{1}{\rho}\frac{\D p}{\D y}+\nu\left(\frac{\D^2v}{\D x^2}+\frac{\D^2v}{\D y^2}\right)
   \end{eqnarray}
+  \label{eq:momentum}
 \end{subequations}
 
 \begin{equation}
   \frac{\D u}{\D x} + \frac{\D v}{\D y} = 0
+  \label{eq:mass}
 \end{equation}
 
 Para o regime permanente do escoamento, $\frac{\D u}{\D t}=\frac{\D v}{\D t}=0$.
 
-Suponha também que o escoamento seja desenvolvido, isto é,
+Suponha também que o escoamento seja desenvolvido, isto é:
 
 \begin{equation}
   \frac{\D u}{\D x} = 0
 \end{equation}
-o que implica em
+o que, devido a conservação de massa Eq.~(\ref{eq:mass}), implica em:
 
 \begin{equation}
   \frac{\D v}{\D y} = 0
@@ -31,7 +33,7 @@ o que implica em
 
 Esse resultado significa que $v = \text{constante}$ ao longo de qualquer seção do canal. Mais do que isso: por causa das condições de contorno de não deslizamento, $v = 0$, em todo o domínio do escoamento.
 
-Temos portanto
+Temos portanto:
 
 \begin{subequations}
   \begin{eqnarray}
@@ -47,38 +49,63 @@ A condição de que a derivada parcial da pressão em relação a $y$ seja nula 
   \frac{\D p}{\D x}=\mu\frac{\D^2u}{\D y^2}
   \label{eq:perfil_laminar_edp}
 \end{equation}
-Uma vez que a pressão depende apenas de $x$ e a velocidade $u$ depende apenas de $y$, podemos concluir que a pressão depende linearmente de $x$, de maneira que $\D p/\D x$ é constante. Dado um gradiente de pressão, a equação \ref{eq:perfil_laminar_edp} se torna uma EDO homogênea de segunda ordem, cuja solução é o perfil laminar do escoamento com as características citadas, expresso por
+
+Uma vez que a pressão depende apenas de $x$ e a velocidade $u$ depende
+apenas de $y$, podemos concluir que a pressão depende linearmente de
+$x$, de maneira que $\D p/\D x$ é constante. Dado um gradiente de
+pressão, a equação \ref{eq:perfil_laminar_edp} se torna uma EDO
+homogênea de segunda ordem, cuja solução é o perfil laminar do
+escoamento com as características citadas, expresso por:
 
 \begin{equation}
   u(y) = \frac{1}{2\mu}\frac{\D p}{\D x}y^2+C_1y+C_2
+\label{eq:sol_geral1}
 \end{equation}
-com
 
-\begin{subequations}
-  \begin{eqnarray}
+A Eq.(\ref{eq:sol_geral1}) fornece a solução geral do problema
+representado pela Eq.~(\ref{eq:perfil_laminar_edp}). As condições de
+contorno definem a natureza do problema. Tratamos aqui o caso particular
+de não-escorregamento de partículas em contato com as paredes inferior
+$y=0$ e superior $y=L$. Com isso, as condições de contorno para
+velocidade se escrevem: 
+
+\begin{eqnarray}
+	u(y=0) &=& u(0) = 0\\
+	u(y=L) &=& u(L) = 0
+\label{eq:cc}
+\end{eqnarray}
+
+Os coeficientes $C_1$ e $C_2$ da Eq.~(\ref{eq:sol_geral1}) podem ser
+encontrados através da imposição das condições de contorno, definindo
+então a solução particular do problema:
+
+\begin{eqnarray}
     C_1 &=& \frac{u(L)-u(0)}{L}-\frac{1}{2\mu}\frac{\D p}{\D x}L\\
     C_2 &=& u(0)
-  \end{eqnarray}
-\end{subequations}
-onde $L$ é a largura do canal. Se $u(0)=u(L)=0$, obtemos
+\end{eqnarray}
+
+onde $L$ é a largura do canal. Se $u(0)=u(L)=0$, obtemos:
 
 \begin{equation}
   u(y) = \frac{1}{2\mu}\frac{\D p}{\D x}\left(y^2-Ly\right)
   \label{eq:perfil_laminar}
 \end{equation}
 
-Considere que $u(y=L/2)=U$. Para o perfil dado pela equação \ref{eq:perfil_laminar}, temos portanto que
+Para o problema do canal, a velocidade $U$ é máxima no centro $y=L/2$.
+Considere $u(y=L/2)=U$. Para o perfil dado pela equação
+\ref{eq:perfil_laminar}, temos portanto que:
 
 \begin{equation}
   U = \frac{1}{2\mu}\frac{\D p}{\D x}\left(-\frac{L^2}{4}\right)
 \end{equation}
-o que resulta em
+
+o que resulta em:
 
 \begin{equation}
   \frac{\D p}{\D x}=-8\frac{\mu U}{L^2}
 \end{equation}
 
-Definindo $\Re=UL\rho/\mu$, obtemos
+Definindo o número de Reynolds como $\Re=UL\rho/\mu$, obtemos
 
 \begin{equation}
   \frac{\D p}{\D x}=-8\frac{\mu^2\Re}{\rho L^3}
