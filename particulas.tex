@@ -1,72 +1,109 @@
 \typeout{ ====================================================================}
-\typeout{ this is file particulas.tex, created at 10-Apr-2015               }
+\typeout{ this is file particulas.tex, created at 10-Apr-2015                 }
 \typeout{ maintained by Gustavo Rabello dos Anjos                             }
 \typeout{ e-mail: gustavo.rabello@gmail.com                                   }
 \typeout{ ====================================================================}
 
 \section{PARTÍCULAS}
 
-Em dinâmica dos fluidos, a equação de Basset-Boussinesq-Oseen (BBO)
-descreve o movimento e as forças que atuam em partículas pequenas para
-escoamentos transiente com baixo número de Reynolds. Sua formulação pode
-ser encontrada de diversas formas. 
+A equação de Basset-Boussinesq-Oseen (BBO) relaciona a taxa de variação de quantidade de movimento de uma partícula esférica imersa num campo de velocidade de baixo número de Reynolds. Esta equação acopla o movimento de partículas ao portanto o escoamento por meio da transferência de quantidade de movimento linear. Esta equação modela a ação do fluido na partícula. Em processos reais, as partículas (fase dispersa) também exercem influência sobre o fluido (fase contínua). No entanto, para partículas muito pequenas, o efeito destas no fluido pode ser desprezado em algumas aplicações, de maneira que apenas o efeito do escoamento sobre as partículas é levado em conta, constituindo um modelo do tipo ({\it one-way coupling}). Além disso, problemas como o transporte de sedimentos em grandes corpos aquáticos, dispersão partículas de poluição na atmosfera, entre outros, as escalas de comprimento das partículas são muito pequenas em relação às do escoamento da fase contínua. Nestes casos, o conceito de partículas pontuais pode ser empregado, segundo o qual a influência do volume no escoamento pode ser desconsiderada.
 
+Dada a massa $M$ de uma partícula pontual, com densidade $\rho_p$, diâmetro $D$ e o campo de velocidade velocidade $\vec{v}_p$ (bidimensional), consideremos agora as seguintes três forças atuando na partícula: arrasto ({\it drag}, $\vec{F}_D$), sustentação ({\it lift}, $\vec{F}_L$) e força de ``massa acrescida'' ({\it added mass}, $\vec{F}_AM$), definidas da seguinte forma
+
+arrasto $\vec{F}_D$:
 \begin{equation}
-	\frac{\pi}{6} \rho_p d_p^3 \frac{du_p}{dt} 
-	=
-	3 \pi \mu d_p (u_f-u_p)
-	-
-	\frac{\pi}{6} d_p^3 \nabla p
-	+
-	\frac{\pi}{12} \rho_f d_p^3 \frac{d}{dt}(u_f-u_p)
-	+
-	\frac{3}{2} d_p^2 \sqrt(\pi \rho_f \mu) \cdots
-	+
-	\sum F_k
+\vec{F}_D = 3\pi\mu D(\vec{u}-\vec{v}_p)
 \end{equation}
 
-\noindent onde o primeiro termo do lado direto da equação representa o
-arrasto, o segundo termo representa o gradiente de pressão, o terceiro
-a força virtual, o quarto a força de Basset e o quinto termo representa
-qualquer outra força que deva ser levada em consideração, como por
-exemplo a força de gravidade.
-
+lift force $\vec{F}_L$:
 \begin{equation}
-	\sum F = ma = m \frac{D \mathbf{u}}{D t}
+\vec{F}_L = 1.61\sqrt{\mu\rho_p}D^2\parallel\vec{u}-\vec{v}_p\parallel\frac{d\vec{u}}{dy}\left|\frac{du}{dy}\right|^{-0.5}
 \end{equation}
 
-Em $\sum F$ diversas forças podem ser consideradas no modelo dependendo
-do grau de complexidade e precisão do esquema proposto. Neste seção,
-consideraremos àquelas pertinentes ao desenvolvimento do um modelo
-simplificado, cabendo ressaltar que a consideração de outras forças
-varia de acordo com a aplicação em problemas mais complexos. Para
-maiores informações, ao leitor é sugerido as seguintes referências:
-\cite{crowe2012}, 
+added mass force $\vec{F}_{AM}$:
+\begin{equation}
+\vec{F}_{AM} = \frac{1}{2}M\frac{d\vec{v}_p}{dt}
+\end{equation}
+%gravity force $\vec{F}_G$:
+%\begin{equation}
+%\vec{F}_G = M\vec{g}
+%\end{equation}
+onde o vetor $\vec{u}$ é o campo de velocidade bidimensional do escoamento (o qual, no caso do canal, é tal que $\vec{u}=u\vec{i}$, i.e., a componente na direção $y$ é nula). Para estas três forças, a equação BBO é expressa por
 
 \begin{equation}
-	\sum F = F_{lift} + F_{drag} + F_{gravity} + F_{virtual}
+	M\frac{d\vec{v}_p}{dt} = 
+	3\pi\mu D(\vec{u}-\vec{v}_p)
+	+1.61\sqrt{\mu\rho_p}D^2\parallel\vec{u}-\vec{v}_p\parallel\frac{d\vec{u}}{dy}\left|\frac{du}{dy}\right|^{-0.5}
+	+\frac{1}{2}M\frac{d\vec{v}_p}{dt}
 \end{equation}
+cuja solução dentro do intervalo do passo de tempo fornece a velocidade $\vec{v}_p$ da partícula. O {\it tracking} da partícula pode então ser efetuado por meio do cálculo da posição com a velocidade $\vec{v}_p$.
 
-\noindent onde $F_{gravity}$ representa a força gravitacional definida
-como: 
+Embora não seja o caso do escoamento em canal do qual trata o presente texto, cabe citar ainda a força exercida pelo campo gravitacional na partícula, $\vec{F}_G$, a qual é dada por
 
+gravidade $\vec{F}_G$:
 \begin{equation}
-	dF_{gravity}
-	=
-	\rho_p g dv
+	\vec{F}_G = M\vec{g}
 \end{equation}
 
-ao integramos no volume ocupado por uma partícula qualquer, a força
-gravitacional toma a forma de:
+Outras forças podem ser incluídas no modelo do movimento da partícula, como influência de campo magnético, ou a força de Basset. Maiores detalhes podem ser obtidos de \citet{crowe2012}.
 
-\begin{equation}
-	dF_{gravity}
-	=
-	\rho_p \pi \frac{d_p^3}{6} g
-\end{equation}
 
-\noindent onde $dv=\pi d_p^3/6$. $F_{lift}$ representa a força de
-sustentação (``lift'')
+%\begin{equation}
+%	M \frac{du_p}{dt} 
+%	=
+%	3 \pi \mu d_p (u_f-u_p)
+%	-
+%	\frac{M}{\rho_p} \nabla p
+%	+
+%	\frac{M}{2} \frac{d}{dt}(u_f-u_p)
+%	+
+%	\frac{3}{2} d_p^2 \sqrt{\pi \rho_f \mu}
+%	+
+%	\sum F_k
+%\end{equation}
+%
+%\noindent onde o primeiro termo do lado direto da equação representa o
+%arrasto, o segundo termo representa o gradiente de pressão, o terceiro
+%a força virtual, o quarto a força de Basset e o quinto termo representa
+%qualquer outra força que deva ser levada em consideração, como por
+%exemplo a força de gravidade.
+%
+%\begin{equation}
+%	\sum F = ma = m \frac{D \mathbf{u}}{D t}
+%\end{equation}
+%
+%Em $\sum F$ diversas forças podem ser consideradas no modelo dependendo
+%do grau de complexidade e precisão do esquema proposto. Neste seção,
+%consideraremos àquelas pertinentes ao desenvolvimento do um modelo
+%simplificado, cabendo ressaltar que a consideração de outras forças
+%varia de acordo com a aplicação em problemas mais complexos. Para
+%maiores informações, ao leitor é sugerido as seguintes referências:
+%\cite{crowe2012}, 
+%
+%\begin{equation}
+%	\sum F = F_{lift} + F_{drag} + F_{gravity} + F_{virtual}
+%\end{equation}
+%
+%\noindent onde $F_{gravity}$ representa a força gravitacional definida
+%como: 
+%
+%\begin{equation}
+%	dF_{gravity}
+%	=
+%	\rho_p g dv
+%\end{equation}
+%
+%ao integramos no volume ocupado por uma partícula qualquer, a força
+%gravitacional toma a forma de:
+%
+%\begin{equation}
+%	dF_{gravity}
+%	=
+%	\rho_p \pi \frac{d_p^3}{6} g
+%\end{equation}
+%
+%\noindent onde $dv=\pi d_p^3/6$. $F_{lift}$ representa a força de
+%sustentação (``lift'')
 
 
 

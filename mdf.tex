@@ -12,6 +12,7 @@
 	\frac{\partial}{\partial y} \left(\nu \frac{\partial u}{\partial y}\right)
 	=
 	\frac{1}{\rho} \frac{\partial p}{\partial x}
+	\label{eq:perfil_laminar_perm}
 \end{equation}
 
 A discretização em diferenças finitas unidimensional é feita para um
@@ -33,35 +34,77 @@ ponto médio dos segmentos da malha em diferenças finitas $i+1/2$ e
 $i-1/2$, tomando-se então $\nu_{i+1/2} = (\nu_{i}+\nu_{i+1})/2$ e
 $\nu_{i-1/2} = (\nu_{i-1}+\nu_{i})/2$.
 
-Para a montagem (\emph{assembling}) da matriz do termo difusivo $A$ da
-equação em regime permanente, organizam-se os coeficientes de $u_{i-1}$, $u_i$ e
+O sistema de equações resultante é linear, e pode ser representado matricialmente por
+
+\begin{equation}
+	\vec{A}\vec{u}=\vec{b}
+	\label{eq:sistema_linear}
+\end{equation}
+onde, considerando que a malha possua $m$ pontos nodais,
+
+\begin{equation}
+	\vec{A} = \left[
+	\begin{array}{cccc}
+		A_{1,1} & A_{1,2} & \dots & A_{1,m}\\
+		A_{2,1} & A_{2,2} & \dots & A_{2,m}\\
+		\vdots  & \vdots  & \ddots  & \vdots\\
+		A_{m,1} & A_{m,2} & \dots & A_{m,m}
+	\end{array}
+	\right]
+\end{equation}
+
+\begin{equation}
+	\vec{u} = \left[
+	\begin{array}{c}
+		u_{1}\\
+		u_{2}\\
+		\vdots\\
+		u_{m}
+	\end{array}
+	\right]
+\end{equation}
+
+\begin{equation}
+	\vec{b} = \left[
+	\begin{array}{c}
+		b_{1}\\
+		b_{2}\\
+		\vdots\\
+		b_{m}
+		\end{array}
+	\right]
+\end{equation}
+
+Para uma linha $i$ e coluna $j$ genéricas, a montagem (\emph{assembling}) da matriz do termo difusivo $\vec{A}$ da
+equação em regime permanente é feita organizando-se os coeficientes de $u_{i-1}$, $u_i$ e
 $u_{i+1}$ em colunas %, uma vez que esta matriz é simétrica,
-dentro de um laço (\emph{loop}) do tipo (para a linha $i$):
+dentro de um laço (\emph{loop}) do tipo
 
 \begin{itemize}
 	\item{coluna $j-1$:}
 		\begin{equation}
-			\frac{\nu_{i-1/2}}{\Delta y^2}
+			A_{i,j-1} = \frac{\nu_{i-1/2}}{\Delta y^2}
 		\end{equation}
 	\item{coluna $j$:}
 		\begin{equation}
-			\frac{-\nu_{i+1/2}-\nu_{i-1/2}}{\Delta y^2}
+			A_{i,j} = \frac{-\nu_{i+1/2}-\nu_{i-1/2}}{\Delta y^2}
 		\end{equation}
 	\item{coluna $j+1$:}
 		\begin{equation}
-			\frac{\nu_{i+1/2}}{\Delta y^2}
+			A_{i,j+1} = \frac{\nu_{i+1/2}}{\Delta y^2}
 		\end{equation}
 \end{itemize}
 
-Para a montagem do vetor do lado direto:
+Para a montagem do vetor do lado direto $\vec{b}$:
 
 \begin{itemize}
 	\item{linha $i$:}
 		\begin{eqnarray}
-			\frac{1}{\rho}\frac{\partial p}{\partial x} 
+			b_i=\frac{1}{\rho}\frac{\partial p}{\partial x} 
 		\end{eqnarray}
 \end{itemize}
 
+A solução do sistema linear \ref{eq:sistema_linear} fornece o perfil laminar permanente de velocidade no canal.
 
 \subsection{Laminar transiente}
 
@@ -88,8 +131,7 @@ centradas é expressa por:
   -\nu_{i-1/2}(u_{i}^n-u_{i-1}^n)}{\Delta y^2}
   \label{eq:perfil_turbulento_discr}
 \end{eqnarray}
-
-Note que $\alpha$ representa uma variável limitada por $0\leq\alpha\leq
+onde $\alpha$ representa uma variável limitada por $0\leq\alpha\leq
 1$ que ajusta o esquema discreto no tempo em explícito $\alpha=0$,
 implícito $\alpha=1$ e de segunda ordem do tipo Crank-Nicholson para
 $\alpha=1/2$. A viscosidade cinemática $\nu = \mu / \rho$ é
@@ -97,23 +139,23 @@ discretizada no ponto médio dos segmentos da malha em diferenças finitas
 $i+1/2$ e $i-1/2$, tomando-se então $\nu_{i+1/2} =
 (\nu_{i}+\nu_{i+1})/2$ e $\nu_{i-1/2} = (\nu_{i-1}+\nu_{i})/2$.
 
-Para o \emph{assembling} da matriz do termo difusivo $A$ da
+Para o \emph{assembling} da matriz do termo difusivo $\vec{A}$ da
 equação em regime transiente, propõe-se um esquema dentro de um \emph{loop} do tipo (para linha $i$):
 
 \begin{itemize}
 	\item{coluna $j-1$:}
 		\begin{equation}
-			-\alpha \frac{\nu_{i-1/2}}{\Delta y}
+			A_{i,j-1} = -\alpha \frac{\nu_{i-1/2}}{\Delta y}
 		\end{equation}
 	\item{coluna $j$:}
 		\begin{equation}
-			\frac{1}{\Delta t} 
+			A_{i,j} = \frac{1}{\Delta t} 
 			+ \alpha \frac{\nu_{i+1/2}}{\Delta y}
 			+ \alpha \frac{\nu_{i-1/2}}{\Delta y}
 		\end{equation}
 	\item{coluna $j+1$:}
 		\begin{equation}
-			-\alpha \frac{\nu_{i+1/2}}{\Delta y}
+			A_{i,j+1} = -\alpha \frac{\nu_{i+1/2}}{\Delta y}
 		\end{equation}
 \end{itemize}
 
@@ -122,7 +164,7 @@ Para a montagem do vetor do lado direto:
 \begin{itemize}
 	\item{linha $i$:}
 		\begin{eqnarray}
-			\frac{u_i^{n}}{\Delta t} 
+			b_i = \frac{u_i^{n}}{\Delta t} 
 			-\frac{1}{\rho}\frac{\partial p}{\partial x} 
 			+(1-\alpha)\frac{\nu_{i+1/2}(u_{i+1}^n-u_{i}^n)
 			-\nu_{i-1/2}(u_{i}^n-u_{i-1}^n)}{\Delta y^2}
@@ -130,28 +172,66 @@ Para a montagem do vetor do lado direto:
 		\end{eqnarray}
 \end{itemize}
 
-A adoção do esquema completamente explícito ($\alpha=0$) impõe um limite quanto ao valor do incremento de tempo $\Delta t$, acima do qual a formulação se torna numericamente instável. Este limite pode ser determinado a partir do método de análise de Von Neumann, segundo o qual o erro propagado através da solução pode ser expandido em série de Fourier. A análise é feita para um modo genérico do erro. Efetuando a transformação $u_{i+k}^{n+m}=g^me^{ik\zeta}$ para a equação \ref{eq:perfil_laminar_discr}, considerando viscosidade constante, obtém-se
+A adoção do esquema completamente explícito ($\alpha=0$) impõe um limite quanto ao valor do incremento de tempo $\Delta t$, acima do qual a formulação se torna numericamente instável. Este limite pode ser determinado a partir do método de análise de Von Neumann. O resultado da análise considerando viscosidade constante exige que
 
 \begin{equation}
-	\frac{g-1}{\Delta t}=-\frac{1}{\rho}\frac{\D p}{\D x}+\nu\frac{e^{ik}+e^{-ik}-2}{\Delta y^2}
-\end{equation}
-que pode ser reescrita como
-
-\begin{equation}
-	\frac{g-1}{\Delta t}=-\frac{1}{\rho}\frac{\D p}{\D x}+2\nu\frac{\cos\zeta-1}{\Delta y^2}
+	\dt\leq 2\left(\frac{1}{\rho}\frac{\D p}{\D x}+\frac{4\nu}{\dy^2}\right)^{-1}
 \end{equation}
 
-A condição para estabilidade consiste em $|g|\leq 1$, consequentemente,
+A solução do sistema linear resultante fornece o campo laminar de velocidade para o passo de tempo $n$.
 
-\begin{equation}
-	|g|=\left|-\frac{\Delta t}{\rho}\frac{\D p}{\D x}+2\nu(\cos\zeta-1)\frac{\Delta t}{\Delta y^2}+1\right|\leq 1
-\end{equation}
+%segundo o qual o erro propagado através da solução pode ser expandido em série de Fourier. A análise é feita para um modo genérico do erro. Efetuando a transformação $u_{i+k}^{n+m}=g^me^{ik\zeta}$ para a equação \ref{eq:perfil_laminar_discr}, considerando viscosidade constante, obtém-se
+%
+%\begin{equation}
+%	\frac{g-1}{\Delta t}=-\frac{1}{\rho}\frac{\D p}{\D x}+\nu\frac{e^{ik}+e^{-ik}-2}{\Delta y^2}
+%\end{equation}
+%que pode ser reescrita como
+%
+%\begin{equation}
+%	\frac{g-1}{\Delta t}=-\frac{1}{\rho}\frac{\D p}{\D x}+2\nu\frac{\cos\zeta-1}{\Delta y^2}
+%\end{equation}
+%
+%A condição para estabilidade consiste em $|g|\leq 1$, consequentemente,
+%
+%\begin{equation}
+%	|g|=\left|-\frac{\Delta t}{\rho}\frac{\D p}{\D x}+2\nu(\cos\zeta-1)\frac{\Delta t}{\Delta y^2}+1\right|\leq 1
+%\end{equation}
 
 \subsection{Condições de Contorno}
 
-\subsection{Turbulento transiente}
+Para que o problema tenha solução única, condições de contorno devem ser impostas. No escoamento em canal, é razoável supor condição de não deslizamento nas paredes, i.e.,
+
+\begin{subequations}
+	\begin{eqnarray}
+		u(y=0) &=& 0\\
+		u(y=L) &=& 0
+	\end{eqnarray}
+\end{subequations}
+
+No contexto do problema discreto, com malha deslocada, esta condição exige que
+
+\begin{subequations}
+	\begin{eqnarray}
+		u_1 + u_2 &=& 0\\
+		u_m + u_{m-1} &=& 0
+	\end{eqnarray}
+\end{subequations}
+
+De tal forma que
+
+\begin{subequations}
+	\begin{eqnarray}
+	A_{1,1} &=& 1\\
+	A_{1,2} &=& 1\\
+	A_{m,m} &=& 1\\
+	A_{m,m-1} &=& 1\\
+	b_1 &=& 0\\
+	b_m &=& 0
+	\end{eqnarray}
+\end{subequations}
 
 
+%\subsection{Turbulento transiente}
 
 
 \typeout{ ****************** End of file mdf.tex ****************** }
