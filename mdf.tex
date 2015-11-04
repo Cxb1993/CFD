@@ -145,17 +145,17 @@ equação em regime transiente, propõe-se um esquema dentro de um \emph{loop} d
 \begin{itemize}
 	\item{coluna $j-1$:}
 		\begin{equation}
-			A_{i,j-1} = -\alpha \frac{\nu_{i-1/2}}{\Delta y}
+			A_{i,j-1} = -\alpha \frac{\nu_{i-1/2}}{\Delta y^2}
 		\end{equation}
 	\item{coluna $j$:}
 		\begin{equation}
 			A_{i,j} = \frac{1}{\Delta t} 
-			+ \alpha \frac{\nu_{i+1/2}}{\Delta y}
-			+ \alpha \frac{\nu_{i-1/2}}{\Delta y}
+			+ \alpha \frac{\nu_{i+1/2}}{\Delta y^2}
+			+ \alpha \frac{\nu_{i-1/2}}{\Delta y^2}
 		\end{equation}
 	\item{coluna $j+1$:}
 		\begin{equation}
-			A_{i,j+1} = -\alpha \frac{\nu_{i+1/2}}{\Delta y}
+			A_{i,j+1} = -\alpha \frac{\nu_{i+1/2}}{\Delta y^2}
 		\end{equation}
 \end{itemize}
 
