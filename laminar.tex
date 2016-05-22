@@ -103,13 +103,14 @@ o que resulta em:
 
 \begin{equation}
   \frac{\D p}{\D x}=-8\frac{\mu U}{L^2}
+  \label{eq:gradp}
 \end{equation}
 
 Definindo o número de Reynolds como $\Re=UL\rho/\mu$, obtemos
 
 \begin{equation}
   \frac{\D p}{\D x}=-8\frac{\mu^2\Re}{\rho L^3}
-  \label{eq:gradp}
+  \label{eq:gradp-Re}
 \end{equation}
 
 \subsection{Regime laminar transiente}
@@ -121,5 +122,10 @@ O regime transiente do mesmo escoamento pode ser representado por
     \label{eq:perfil_laminar_transiente}
 \end{equation}
 
-Note que agora a equação depende da densidade $\rho$ do fluido. De fato, para o regime transiente, a variação do perfil de velocidade com o tempo deve ser influenciada pela inércia do fluido, convergindo, no entanto, para um valor comum para qualquer valor de $\rho$. Note ainda que a pressão agora é também função do tempo, isto é, $p = p(x,t)$ e seu gradiente não pode mais ser calculado pela expressão \ref{eq:gradp}.
+Note que agora a equação depende da densidade $\rho$ do fluido. De fato,
+para o regime transiente, a variação do perfil de velocidade com o tempo
+deve ser influenciada pela inércia do fluido, convergindo, no entanto,
+para um valor comum para qualquer valor de $\rho$. Note ainda que a
+pressão agora é também função do tempo, isto é, $p = p(x,t)$ e seu
+gradiente não pode mais ser calculado pela expressão \ref{eq:gradp}.
 

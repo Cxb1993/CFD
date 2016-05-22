@@ -30,6 +30,12 @@
 %\SetWatermarkText{ANNEX 2}
 %\SetWatermarkScale{3}
 %\SetWatermarkColor[rgb]{red!60}
+\usepackage{alltt,verbatim,moreverb}  % para entrada verbatim comandos LaTeX
+\usepackage{rotating}				  % para rotacionar alguns flutuantes
+\usepackage{amscd}					  % para setas longas
+\usepackage{algorithm,algpseudocode}  % para codigos numericos 
+\algrenewcommand{\algorithmiccomment}[1]{\hskip3em$\rightarrow$ #1}
+\columnsep=8mm
 \columnsep=8mm
 %\columnseprule=1pt
 
@@ -65,6 +71,15 @@
 \titleformat*{\section}{\normalsize\bfseries}
 \titleformat*{\subsection}{\normalsize\bfseries}
 \titleformat*{\subsubsection}{\normalsize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MATRIX WITH INDICES %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{etoolbox}
+\let\bbordermatrix\bordermatrix
+\renewcommand{\arraystretch}{2}
+\patchcmd{\bbordermatrix}{8.75}{4.75}{}{}
+\patchcmd{\bbordermatrix}{\left(}{\left[}{}{}
+\patchcmd{\bbordermatrix}{\right)}{\right]}{}{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  -- END -- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \renewcommand{\refname}{\normalsize{References}}
 \renewcommand{\nomname}{List of Symbols}

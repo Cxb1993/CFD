@@ -1,0 +1,37 @@
+\typeout{ ====================================================================}
+\typeout{ this is file assembling1.tex, created at 15-Mar-2015               }
+\typeout{ maintained by Gustavo Rabello dos Anjos                             }
+\typeout{ e-mail: gustavo.rabello@gmail.com                                   }
+\typeout{ ====================================================================}
+
+
+\begin{algorithm}
+\caption{Algorítimo de `assembling' 1}\label{assembling1}
+\begin{algorithmic}[1]
+	\For{$elem \gets 0, NE$} \Comment{NE = Número total de elementos da
+	malha}
+		\For{$i_{local} \gets 0, 2$}
+			\Comment{$i_{local}=[v_1,v_2,v_3]$}
+			\State $i_{global} \gets IEN[elem,i_{local}]$ 
+			\For{$j_{local} \gets 0, 2$}
+				\Comment{$j_{local}=[v_1,v_2,v_3]$}
+				\State $j_{global} \gets IEN[elem,j_{local}]$
+				\State $K[i_{global},j_{global}] 
+				\gets K[i_{global},j_{global}] + 
+				k_{elem}[i_{local},j_{local}]$
+			\EndFor
+		\EndFor
+	\EndFor
+\end{algorithmic}
+\end{algorithm}
+
+
+
+
+
+
+
+
+
+\typeout{ ****************** End of file assembling1.tex ****************** }
+
