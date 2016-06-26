@@ -38,20 +38,20 @@ O termo do lado direito da primeira equação representa a derivada
 segunda da velocidade $u$, entretanto o índice $2$ não aparece no
 operador pois, para este caso, a viscosidade cinemática $\nu=\mu/\rho$
 deve ser considerada como função e não uma constante (no caso de $\nu$
-constante, a viscosidade poderia sair da derivada e, então, veríamos a
-derivada segunda sendo operada em $u$). O termo do lado direto
-representa a inversa da densidade multiplicada pelo gradiente de pressão
-na direção $x$ que para o problema proposto é um dado do problema como
-verificado em Eqs.(\ref{eq:gradp} e \ref{eq:gradp-Re}). As demais
-equações representam as condições de contorno em $\Gamma_1$ e
+constante, a viscosidade poderia ser retirada da derivada e, então,
+veríamos a derivada segunda sendo operada em $u$). O termo do lado
+direto representa a inversa da densidade multiplicada pelo gradiente de
+pressão na direção $x$ que para o problema proposto é um dado do
+problema como verificado nas Eqs.(\ref{eq:gradp} e \ref{eq:gradp-Re}). As
+demais equações representam as condições de contorno em $\Gamma_1$ e
 $\Gamma_2$, que representam os pontos extremos do domínio
 $\Omega=[0,1]$, ou seja $\Gamma_1 = 0$ e $\Gamma_2 = 1$ \footnote{A
-utilização das letras $\Omega$ e $\Gamma$ para representação simbólica do
-domínio do problema é prática recorrente em problemas matemáticos.
-$\Omega$ representa espaço $R^n$, então $\Gamma$ consequentemente representa
-o espaço $R^{n-1}$. Exemplo: Se $\Omega$ representa uma esfera no espaço
-$R^3$, $\Gamma$ representa a casca desta esfera, ou seja, a sua superfície
-limitante, então descrita no espaço $R^2$.}.
+utilização das letras $\Omega$ e $\Gamma$ para representação simbólica
+do domínio do problema é prática recorrente em problemas matemáticos.
+$\Omega$ representa espaço $R^n$, então $\Gamma$ consequentemente
+representa o espaço $R^{n-1}$. Exemplo: Se $\Omega$ representa uma
+esfera no espaço $R^3$, $\Gamma$ representa a casca desta esfera, ou
+seja, a sua superfície limitante, então descrita no espaço $R^2$.}.
 
 No Método de Elementos Finitos, a solução é construída sobre sua forma
 fraca. Por sua vez, esta é encontrada através da ponderação de uma
@@ -201,7 +201,7 @@ termos no lado direito, chegamos à seguinte forma:
 Note que os termos de contorno são levados para o lado direito apesar de
 $u_i$ estar presente, isso se deve ao fato de $u_i$ no contorno ser
 prescrito através de condições de contorno. A equação apresentada pode
-ser escrita em forma vetorial através de um sistema de equações
+ser escrita em forma tensiorial através de um sistema de equações
 lineares. Considere então que: 
 
 \begin{align}
@@ -233,7 +233,7 @@ lineares. Considere então que:
 
 \noindent onde $u$ tem como componentes os valores nodais $u_n$, a
 matriz $\mathbf{K}$ e o vetor $\mathbf{f}$ representados por uma
-montagem especial conhecida com \emph{Assembling}:
+montagem conhecida com \emph{Assembling}:
 
 \begin{equation}
 	\mathbf{K_{ij}} u_i = \mathbf{f_j} 

@@ -6,9 +6,33 @@
 
 \section{PARTÍCULAS}
 
-A equação de Basset-Boussinesq-Oseen (BBO) relaciona a taxa de variação de quantidade de movimento de uma partícula esférica rígida imersa num campo de velocidade de baixo número de Reynolds. Esta equação acopla o movimento de partículas ao portanto o escoamento por meio da transferência de quantidade de movimento linear. Esta equação modela a ação do fluido na partícula. Em processos reais, as partículas (fase dispersa) também exercem influência sobre o fluido (fase contínua). No entanto, a concentrações de partículas pode ser baixa tal que o efeito destas no fluido pode ser desprezado, de maneira que o acoplamento entre fluido e partícula se dá apenas no sentido do fluido para as partículas, constituindo um modelo do tipo ({\it one-way coupling}). Além disso, problemas como o transporte de sedimentos em grandes corpos aquáticos, dispersão partículas de poluição na atmosfera, entre outros, as escalas de comprimento das partículas são muito pequenas em relação às do escoamento da fase contínua. Nestes casos, o conceito de partículas pontuais pode ser empregado, segundo o qual a influência do volume no escoamento pode ser desconsiderada.
+A equação de Basset-Boussinesq-Oseen (BBO) relaciona a taxa de variação
+de quantidade de movimento de uma partícula esférica rígida imersa num
+campo de velocidade caracterizado por baixo número de Reynolds. Esta
+equação acopla o movimento das partículas (fase dispersa) ao escoamento
+do fluido (fase contínua) por meio da transferência de quantidade de
+movimento linear, modelando a ação do fluido na partícula. Em processos
+reais, as partículas também podem exercer influência sobre o fluido. No
+entanto, a concentrações de partículas pode ser suficientemente baixa
+tal que o efeito destas forças no fluido pode ser desprezado, de maneira
+que o acoplamento entre fluido e partícula se dá apenas no sentido do
+fluido para as partículas, constituindo um modelo do tipo ({\it one-way
+coupling}). Além disso, problemas como o transporte de sedimentos em
+grandes corpos aquáticos, dispersão partículas de poluição na atmosfera,
+entre outros, as escalas de comprimento das partículas são muito
+pequenas em relação às do escoamento da fase contínua. Nestes casos, o
+conceito de partículas pontuais pode ser empregado, segundo o qual a
+influência do volume no escoamento pode ser desconsiderada.
 
-Dada a massa $M$ de uma partícula pontual, com densidade $\rho_p$, diâmetro $D$ e o campo de velocidade velocidade $\vec{v}_p$ (bidimensional), consideremos agora as seguintes três forças atuando na partícula: arrasto ({\it drag}, $\vec{F}_D$), sustentação ({\it lift}, $\vec{F}_L$) e força de ``massa acrescida'' ({\it added mass}, $\vec{F}_AM$), definidas da seguinte forma
+% incluir figura ilustrativa de densidade de partículas para elucidar
+% acoplamentos one-way, two-way e four-way.
+
+Dada a massa $M$ de uma partícula pontual, com densidade $\rho_p$,
+diâmetro $D$ e o campo de velocidade velocidade $\vec{v}_p$
+(bidimensional), consideremos agora as seguintes três forças atuando na
+partícula: arrasto ({\it drag}, $\vec{F}_D$), sustentação ({\it lift},
+$\vec{F}_L$) e força de ``massa acrescida'' ({\it added mass},
+$\vec{F}_AM$), definidas da seguinte forma:
 
 arrasto $\vec{F}_D$:
 \begin{equation}
@@ -31,20 +55,25 @@ added mass $\vec{F}_{AM}$:
 %\begin{equation}
 %\vec{F}_G = M\vec{g}
 %\end{equation}
-onde o vetor $\vec{u}$ é o campo de velocidade bidimensional do escoamento (o qual, no caso do canal, é tal que $\vec{u}=u\vec{i}$, i.e., a componente na direção $y$ é nula). No termo da força de arrasto, $C_D$ é o coeficiente de arrasto, definido por \cite{PERRY99}
+onde o vetor $\vec{u}$ é o campo de velocidade bidimensional do
+escoamento (o qual, no caso do canal, é tal que $\vec{u}=u\vec{i}$,
+i.e., a componente na direção $y$ é nula). No termo da força de arrasto,
+$C_D$ é o coeficiente de arrasto, definido por \cite{PERRY99}
 
 \begin{eqnarray}
 	C_D &=& \frac{24}{Re_p}\text{, para }\Re_p< 0,1\nonumber\\
 	C_D &=& \frac{24}{Re_p}\left(1+0,14\Re_p^{0,7}\right)\text{, para }0,1\leq\Re_p< 1000\\
 	C_D &=& 0,445\text{, para }1000\leq\Re_p< 350000\nonumber
 \end{eqnarray}
-onde foi introduzido o número de Reynolds da partícula $Re_p$ definido por
+onde foi introduzido o número de Reynolds da partícula $Re_p$ definido
+por
 
 \begin{equation}
 	Re_p = \frac{\rho}{\mu}D\parallel\vec{u}-\vec{v}_p\parallel
 \end{equation}
 
-Para estas três forças \ref{eq:arrasto}, \ref{eq:sustentacao} e \ref{eq:added_mass}, a equação BBO é expressa por
+Para estas três forças \ref{eq:arrasto}, \ref{eq:sustentacao} e
+\ref{eq:added_mass}, a equação BBO é expressa por
 
 \begin{equation}
 	M\frac{d\vec{v}_p}{dt} = 
@@ -52,7 +81,10 @@ Para estas três forças \ref{eq:arrasto}, \ref{eq:sustentacao} e \ref{eq:added_
 	+1.61\sqrt{\mu\rho_p}D^2\parallel\vec{u}-\vec{v}_p\parallel\frac{d\vec{u}}{dy}\left|\frac{du}{dy}\right|^{-0.5}
 	+\rho\frac{\pi D^3}{12}\frac{d}{dt}(\vec{v}_p-\vec{u})
 \end{equation}
-cuja solução dentro do intervalo do passo de tempo fornece a velocidade $\vec{v}_p$ da partícula. O {\it tracking} da partícula pode então ser efetuado por meio do cálculo da posição com a velocidade $\vec{v}_p$.
+
+cuja solução dentro do intervalo do passo de tempo fornece a velocidade
+$\vec{v}_p$ da partícula. O {\it tracking} da partícula pode então ser
+efetuado por meio do cálculo da posição com a velocidade $\vec{v}_p$.
 
 Embora não seja o caso do escoamento em canal do qual trata o presente texto, cabe citar ainda a força exercida pelo campo gravitacional na partícula, $\vec{F}_G$, a qual resulta numa força de empuxo sobre a partícula dada por
 
@@ -61,8 +93,9 @@ gravidade $\vec{F}_G$:
 	\vec{F}_G = (\rho_p-\rho)\pi\frac{D^3}{6}\vec{g}
 \end{equation}
 
-Outras forças podem ser incluídas no modelo do movimento da partícula, como influência de campo magnético, ou a força de Basset. Maiores detalhes podem ser obtidos de \citet{crowe2012}.
-
+Outras forças podem ser incluídas no modelo do movimento da partícula,
+como influência de campo magnético, campo elétrico, ou a força de
+Basset. Maiores detalhes podem ser obtidos de \citet{crowe2012}.
 
 %\begin{equation}
 %	M \frac{du_p}{dt} 

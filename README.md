@@ -15,6 +15,7 @@ make deepclean: remove all files produced by make, including main.pdf
 Directory structure:
 
 - main.tex
+  - intro.tex
   - laminar.tex
   - turbulento.tex
   - mef.tex
