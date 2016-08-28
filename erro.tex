@@ -1,0 +1,106 @@
+\typeout{ ====================================================================}
+\typeout{ this is file erro.tex, created at 18-Aug-2016                       }
+\typeout{ maintained by Gustavo Rabello dos Anjos                             }
+\typeout{ e-mail: gustavo.rabello@gmail.com                                   }
+\typeout{ ====================================================================}
+
+
+\section{COMO CALCULAR ERRO}
+
+Muitas vezes desejamos calcular em que distância uma aproximação se
+encontra do valor exato da quantidade que estamos medindo. Esta
+aproximação muitas vezes está associada ao tipo de metodologia que
+estamos empregando ou simplesmente pelo fato de aproximarmos o valor de
+uma constante em uma equação. O significado de um erro cometido está
+estritamente relacionado à magnitude da quantidade medida ou calculada.
+Para ilustrar este problema, considere o peso de uma mala de viagens $32
+\text{kg}$ exatamente, porém ao medir o peso desta mala em uma balança
+analógica verificamos que a leitura do valor é de $31.8 \text{kg}$. Como
+poderíamos saber se este erro está dentro da tolerância apresentada pelo
+fabricante da balança?
+
+Erro absoluto = valor aproximado - valor exato
+
+Erro relativo = erro absoluto / valor exato
+
+Normas em vetor:
+
+\begin{equation}
+ ||x||_p = \bigg( \sum_{i=1}^{n} |x_i|^p \bigg)^{1/p}
+\end{equation}
+
+Em computação científica, três normas destacam-se:
+
+\begin{itemize}
+ \item norma 1:
+\end{itemize}
+
+\begin{equation}
+ ||x||_1 = \sum_{i=1}^{n} |x_i|
+\end{equation}
+
+\begin{itemize}
+ \item norma 2:
+\end{itemize}
+
+\begin{equation}
+ ||x||_2 = \bigg( \sum_{i=1}^{n} |x_i|^2 \bigg)^{1/2}
+\end{equation}
+
+\begin{itemize}
+ \item norma $\infty$ ou norma \textit{inf}:
+\end{itemize}
+
+\begin{equation}
+ ||x||_{\infty} = \text{\textbf{max}} |x_i|
+\end{equation}
+
+Para ilustrar o exemplo, considere os seguintes vetores:
+
+\begin{align}
+ x &= 
+  \begin{bmatrix}
+   1   \\
+   100 \\
+   15  \\
+   7   
+  \end{bmatrix}
+\end{align}
+
+\begin{align}
+\hat{x} &= \begin{bmatrix}
+  1.1  \\
+  98   \\
+  14   \\
+  5.8   
+\end{bmatrix}
+\end{align}
+
+Onde $x$ representa o vetor de valores exatos e $\hat{x}$ o vetor de
+valores aproximados. O erro absoluto pode ser calculado nas três normas
+apresentadas da seguinte forma:
+
+\begin{equation}
+ ||x - \hat{x}||_1 =  
+ = 
+ \sum_{i=1}^{3} |x_i - \hat{x}_i|
+ =
+\end{equation}
+
+\begin{equation}
+ ||x - \hat{x}||_2 =  
+ = 
+ \bigg( \sum_{i=1}^{3} |x_i - \hat{x}_i|^2 \bigg)^2
+ =
+\end{equation}
+
+\begin{equation}
+ ||x - \hat{x}||_{\infty} =  
+ = 
+ \text{\textit{max}}_{i=1}^{3} |x_i - \hat{x}_i|
+ =
+\end{equation}
+
+
+\typeout{ ****************** End of file erro.tex ****************** }
+
